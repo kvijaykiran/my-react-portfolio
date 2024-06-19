@@ -1,4 +1,3 @@
-import { add, format } from "date-fns";
 import BabylonScene from "./BabylonScene";
 
 const App: React.FC = () => {
