@@ -25,7 +25,7 @@ const BabylonScene: React.FC = () => {
 
     const loadModel = async () => {
       try {
-        await SceneLoader.AppendAsync(`/geometry/`, 'model.obj', scene);
+        await SceneLoader.AppendAsync(`/assets/geometry/`, 'model.obj', scene);
         if (sceneRef.current) {
           scene.meshes.forEach(mesh => {
             mesh.scaling = new Vector3(1, 1, 1);
