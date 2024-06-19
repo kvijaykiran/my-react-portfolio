@@ -6,6 +6,7 @@ import '@babylonjs/loaders/OBJ';
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<Scene | null>(null);
+  //const baseUrl = import.meta.env.BASE_URL;
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -25,7 +26,7 @@ const BabylonScene: React.FC = () => {
 
     const loadModel = async () => {
       try {
-        await SceneLoader.AppendAsync(`/assets/geometry/`, 'model.obj', scene);
+        await SceneLoader.AppendAsync(`/geometry/`, 'model.obj', scene);
         if (sceneRef.current) {
           scene.meshes.forEach(mesh => {
             mesh.scaling = new Vector3(1, 1, 1);
