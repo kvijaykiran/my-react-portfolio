@@ -1,13 +1,12 @@
-import { add, format } from "date-fns"
+import { add, format } from "date-fns";
+import BabylonScene from "./BabylonScene";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
-    Hello, there!
-    <p>Today's date: {format(add(new Date(), { days: 0}), "do MMMM yyyy")}</p>
-    <p>Tomorrow's date: {format(add(new Date(), { days: 1}), "do MMMM yyyy")}</p>
-    </>
-  )
-}
+    <div className="App">
+      <BabylonScene />
+    </div>
+  );
+};
 
-export default App
+export default App;
