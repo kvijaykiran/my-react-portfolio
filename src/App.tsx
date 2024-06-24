@@ -1,13 +1,14 @@
-import BabylonScene from "./BabylonScene";
+import React from 'react';
+import { Provider } from 'react-redux';
+import BabylonScene from './BabylonScene';
+import store from './redux/store';
 
-const App: React.FC = () => {
-  console.log("vite base url: ", import.meta.env.VITE_BASE_URL);
+//   console.log("vite base url: ", import.meta.env.VITE_BASE_URL);
 
-  return (
-    <div className="App">
-      <BabylonScene />
-    </div>
-  );
-};
+const App: React.FC = () => (
+  <Provider store={store}>
+    <BabylonScene />
+  </Provider>
+);
 
 export default App;
