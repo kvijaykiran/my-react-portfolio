@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Engine, Scene, ArcRotateCamera, HemisphericLight } from '@babylonjs/core';
 import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
+import { Color3, Color4 } from '@babylonjs/core';
 import '@babylonjs/loaders/OBJ/objFileLoader';
 import { computeCentroidFromBoundingBox } from './Utils';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,7 +23,11 @@ const BabylonScene: React.FC = () => {
     const scene = new Scene(engine);
     sceneRef.current = scene;
 
-    //const camera = new ArcRotateCamera('camera1', -Math.PI / 2, Math.PI / 2.5, 10, new Vector3(0, 0, 0), scene);
+    // Set background color
+    scene.clearColor = new Color4(0.2, 0.2, 0.2, 1.0);
+    scene.ambientColor = new Color3(0.2, 0.2, 0.2);
+
+    // Set camera parameters
     const positionVector = new Vector3(cameraState.position.x, cameraState.position.y, cameraState.position.z);
     const positionMagnitude = positionVector.length();
     const camera = new ArcRotateCamera(
@@ -34,9 +39,10 @@ const BabylonScene: React.FC = () => {
       scene);
     camera.attachControl(canvasRef.current, true);
 
+    // Set lighting parameters
     new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
 
-    // Load the OBJ file
+    // Load the OBJ file - this section will need to be moved to somewhere else
     SceneLoader.ImportMesh("", objFilePath, "", scene, (meshes) => {
       if (meshes.length === 0) return;
 
