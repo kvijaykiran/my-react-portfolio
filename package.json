@@ -15,9 +15,11 @@
   "dependencies": {
     "@babylonjs/core": "^7.11.2",
     "@babylonjs/loaders": "^7.11.2",
+    "@reduxjs/toolkit": "^2.2.5",
     "date-fns": "^3.6.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.14.6",
