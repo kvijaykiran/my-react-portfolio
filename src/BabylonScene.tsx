@@ -38,6 +38,7 @@ const BabylonScene: React.FC = () => {
       positionMagnitude,
       new Vector3(0, 0, 0),
       scene);
+    camera.minZ = 0.1;  // lowest value for minZ = 0.1
     camera.attachControl(canvasRef.current, true);
 
     // Update Redux state when camera position or rotation changes
