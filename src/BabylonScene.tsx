@@ -7,6 +7,7 @@ import '@babylonjs/loaders/OBJ/objFileLoader';
 import { computeCentroidFromBoundingBox } from './Utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from './redux/store';
+import { setPosition, setRotation } from './redux/cameraSlice';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -38,6 +39,13 @@ const BabylonScene: React.FC = () => {
       new Vector3(0, 0, 0),
       scene);
     camera.attachControl(canvasRef.current, true);
+
+    // Update Redux state when camera position or rotation changes
+    camera.onViewMatrixChangedObservable.add(() => {
+      dispatch(setPosition(new Vector3(camera.position.x, camera.position.y, camera.position.z)));
+      dispatch(setRotation(new Vector3(camera.rotation.x, camera.rotation.y, camera.rotation.z)));
+    });
+
 
     // Set lighting parameters
     new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
