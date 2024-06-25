@@ -1,0 +1,60 @@
+.header {
+    position: fixed; /* Fix the header at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    color: #333;
+    z-index: 10; /* Ensure the header is above other elements */
+  
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .dropdown-container {
+        position: relative;
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+  
+        .dropdown {
+            position: absolute;
+            right: 50px;
+            min-width: 150px;
+            cursor: pointer;
+
+            .dropdown-content {
+                position: relative;
+                background-color: #fff;
+                color: #333;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+                min-width: 20px; /* Ensure minimum width for dropdown */
+
+                .dropdown-item {
+                    padding: 10px 20px;
+                    cursor: pointer;
+                    font-size: small;
+                    font-weight: lighter;
+                    font-family: Arial, Helvetica, sans-serif;
+                        
+                    &:hover {
+                      background-color: #ddd;
+                    }
+                  }
+
+            }
+        }
+
+
+
+      }
+
+
+  }
+  
