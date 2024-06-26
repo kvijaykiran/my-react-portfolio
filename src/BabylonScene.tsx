@@ -8,10 +8,12 @@ import { computeCentroidFromBoundingBox } from './Utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from './redux/store';
 import { setPosition, setRotation } from './redux/cameraSlice';
+//import CameraController from './components/CameraController';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<Scene | null>(null);
+  const engineRef = useRef<Engine | null>(null);
   //const baseUrl = import.meta.env.BASE_URL;
   const objFilePath = "/my-react-portfolio/geometry/RevolvePart.obj";
   const dispatch = useDispatch<AppDispatch>();
@@ -40,6 +42,9 @@ const BabylonScene: React.FC = () => {
       scene);
     camera.minZ = 0.1;  // lowest value for minZ = 0.1
     camera.attachControl(canvasRef.current, true);
+    // const camera = new ArcRotateCamera('camera1', Math.PI / 2, Math.PI / 2, 10, new Vector3(0, 0, 0), scene);
+    // camera.attachControl(canvasRef.current, true);
+
 
     // Update Redux state when camera position or rotation changes
     camera.onViewMatrixChangedObservable.add(() => {
@@ -66,25 +71,32 @@ const BabylonScene: React.FC = () => {
       //mesh.position.subtractInPlace(centroid);
     });
 
-
     engine.runRenderLoop(() => {
       scene.render();
     });
 
-    const handleResize = () => {
+    window.addEventListener('resize', () => {
       engine.resize();
-    };
+    });
 
-    window.addEventListener('resize', handleResize);
+    engineRef.current = engine;
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      sceneRef.current = null;
+      window.removeEventListener('resize', () => engine.resize());
       engine.dispose();
     };
+
   }, [dispatch]);
 
   return <canvas ref={canvasRef} style={{ width: '100%', height: '100vh' }} />;
+
+  // return (
+  //   <>
+  //     <canvas ref={canvasRef} style={{ width: '100%', height: '100vh' }} />
+  //     {sceneRef.current && <CameraController scene={sceneRef.current} />}
+  //   </>
+  // );
+  
 };
 
 export default BabylonScene;
