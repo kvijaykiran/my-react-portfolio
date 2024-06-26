@@ -46,15 +46,34 @@
                     &:hover {
                       background-color: #ddd;
                     }
-                  }
 
+                    .submenu-content {
+                      display: none;
+                      position: absolute;
+                      right: 100%;
+                      top: 0;
+                      background-color: #fff;
+                      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                      z-index: 1;
+                      min-width: 150px;
+                      box-sizing: border-box;
+
+                      .submenu-item {
+                        padding: 10px 20px;
+                        cursor: pointer;
+
+                        &:hover {
+                          background-color: #ddd;
+                        }
+                      }
+                    }
+
+                    &:hover .submenu-content {
+                      display: block;
+                    }
+                  }
             }
         }
-
-
-
       }
-
-
   }
   
