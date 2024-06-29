@@ -32,7 +32,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const sphere = MeshBuilder.CreateSphere('sphereMesh', { diameter: 1 }, scene);
     const sphereMat = new StandardMaterial("orangeMat", scene);
     sphereMat.diffuseColor = new Color3(1, 0.35, 0);
-    sphereMat.specularColor = Color3.Black();
+    //sphereMat.specularColor = Color3.Black();
     sphere.material = sphereMat;
     sphere.translate(new Vector3(0, 1, 0), 2);
 
@@ -40,7 +40,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube1 = MeshBuilder.CreateBox('boxMesh', {size: 1, width: 1, height: 1}, scene);
     const cube1Mat = new StandardMaterial('blueMat', scene);
     cube1Mat.diffuseColor = new Color3(0, 0, 1);
-    cube1Mat.specularColor = Color3.Black();
+    //cube1Mat.specularColor = Color3.Black();
     cube1.material = cube1Mat;
     cube1.translate(new Vector3(1, 1, 0), 4);
     cube1.rotate(new Vector3(1, 1, 1), deg2Rad(45));
@@ -49,7 +49,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cone1 = MeshBuilder.CreateCylinder('cylinderMesh', {height: 2, diameterTop: 0, diameterBottom: 1}, scene);
     const cone1Mat = new StandardMaterial('yellowMat', scene);
     cone1Mat.diffuseColor = new Color3(1, 1, 0);
-    cone1Mat.specularColor = Color3.Black();
+    //cone1Mat.specularColor = Color3.Black();
     cone1.material = cone1Mat;
     cone1.translate(new Vector3(0, 1, 1), 2);
     cone1.rotate(new Vector3(1, 0, 1), deg2Rad(30));
@@ -58,10 +58,19 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cyl = MeshBuilder.CreateCylinder('cylinderMesh', {height: 2, diameterTop: 1, diameterBottom: 1}, scene);
     const cylMat = new StandardMaterial('greenMat', scene);
     cylMat.diffuseColor = new Color3(0, 1, 0);
-    cylMat.specularColor = Color3.Black();
+    //cylMat.specularColor = Color3.Black();
     cyl.material = cylMat;
     cyl.translate(new Vector3(-1, 1, -1), 2);
     cyl.rotate(new Vector3(1, 0, 1), deg2Rad(-60));
+
+    // cube red
+    const cube2 = MeshBuilder.CreateBox('boxMesh', {size: 1, width: 1, height: 1}, scene);
+    const cube2Mat = new StandardMaterial('redMat', scene);
+    cube2Mat.diffuseColor = new Color3(1, 0, 0);
+    //cube2Mat.specularColor = Color3.Black();
+    cube2.material = cube2Mat;
+    cube2.translate(new Vector3(-1, 1, 1), 3);
+    cube2.rotate(new Vector3(1, 1, 1), deg2Rad(135));
     
     
     return () => {
