@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 // import { setPosition, setTarget } from '../redux/cameraSlice';
 // import { setPosition } from '../redux/cameraSlice';
 import '../styles/_header.scss';
 // import { Vector3 } from '@babylonjs/core/Maths/math.vector';
+import { selectMenu } from '../redux/menuSlice';
 
 const Header: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState< { [key: string]: boolean}>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -53,7 +54,7 @@ const Header: React.FC = () => {
               <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>Views
                 {submenuOpen['a'] && (
                   <div className='submenu-content'>
-                  <div className="submenu-item">Front</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Front'))}>Front</div>
                   <div className="submenu-item">Left</div>
                   <div className="submenu-item">Top</div>
                   <div className="submenu-item">Isometric</div>
