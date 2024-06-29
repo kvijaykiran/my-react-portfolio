@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from './redux/store';
 import { setPosition, setRotation } from './redux/cameraSlice';
 //import CameraController from './components/CameraController';
+import GroundPlane from './components/GroundPlane';
+import ViewingPrimitives from './components/ViewingPrimitives';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,6 +20,7 @@ const BabylonScene: React.FC = () => {
   const objFilePath = "/my-react-portfolio/geometry/RevolvePart.obj";
   const dispatch = useDispatch<AppDispatch>();
   const cameraState = useSelector((state: RootState) => state.camera);
+  const selectedMenu = useSelector((state: RootState) => state.menu.selectedMenu);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -54,7 +57,10 @@ const BabylonScene: React.FC = () => {
 
 
     // Set lighting parameters
-    new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
+    const light = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
+    light.diffuse = new Color3(0.75, 0.75, 0.75);
+	  //light.specular = new Color3(0, 1, 0);
+	  //light.groundColor = new Color3(0, 1, 0);
 
     // Load the OBJ file - this section will need to be moved to somewhere else
     SceneLoader.ImportMesh("", objFilePath, "", scene, (meshes) => {
@@ -88,7 +94,7 @@ const BabylonScene: React.FC = () => {
 
   }, [dispatch]);
 
-  return <canvas ref={canvasRef} style={{ width: '100%', height: '100vh' }} />;
+  //return <canvas ref={canvasRef} style={{ width: '100%', height: '100vh' }} />;
 
   // return (
   //   <>
@@ -96,6 +102,14 @@ const BabylonScene: React.FC = () => {
   //     {sceneRef.current && <CameraController scene={sceneRef.current} />}
   //   </>
   // );
+
+  return (
+      <>
+        <canvas ref={canvasRef} style={{ width: '100%', height: '100vh'}} />
+        {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
+        {selectedMenu === 'Front' && sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
+      </>
+  );
   
 };
 

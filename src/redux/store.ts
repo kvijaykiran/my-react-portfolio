@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cameraReducer from './cameraSlice';
+import menuReducer from './menuSlice';
 
 const store = configureStore({
   reducer: {
     camera: cameraReducer,
+    menu: menuReducer,
   },
 });
 
