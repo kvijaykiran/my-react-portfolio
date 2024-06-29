@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Scene, MeshBuilder, CylinderBlock } from '@babylonjs/core';
+import { Scene, MeshBuilder } from '@babylonjs/core';
 import { StandardMaterial } from '@babylonjs/core';
 import { Color3 } from '@babylonjs/core';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
