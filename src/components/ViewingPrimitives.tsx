@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Scene, MeshBuilder } from '@babylonjs/core';
 import { StandardMaterial } from '@babylonjs/core';
+import { SkyMaterial } from '@babylonjs/materials';
 import { Color3 } from '@babylonjs/core';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import '../Utils';
@@ -19,6 +20,14 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
         mesh.dispose();
         }
 
+
+    // Skybox
+    const skybox = MeshBuilder.CreateBox('Skybox', {size: 1000} , scene);
+    const skyboxMat = new SkyMaterial('SkyMaterial', scene);
+    skyboxMat.backFaceCulling = false;
+    skyboxMat.inclination = 0;
+    //setSkyConfig("material.inclination", skyboxMat.inclination, 0);
+    skybox.material = skyboxMat;
 
     // ground mesh
     const ground = MeshBuilder.CreateGround('groundMesh', {width: 20, height: 20, subdivisions: 2});
@@ -74,6 +83,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     
     
     return () => {
+      skybox.dispose();
       ground.dispose();
       sphere.dispose();
       cube1.dispose();
