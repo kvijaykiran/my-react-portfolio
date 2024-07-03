@@ -11,8 +11,7 @@ import { setPosition, setRotation } from './redux/cameraSlice';
 //import CameraController from './components/CameraController';
 import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
-import {deg2Rad, rad2Deg} from './Utils';
-import { ShadowGenerator } from '@babylonjs/core';
+import {rad2Deg} from './Utils';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
