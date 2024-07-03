@@ -5,7 +5,7 @@ import { SkyMaterial } from '@babylonjs/materials';
 import { Color3 } from '@babylonjs/core';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import '../Utils';
-import { deg2Rad, rad2Deg } from '../Utils';
+import { deg2Rad } from '../Utils';
 
 interface ViewingPrimitivesProps {
   scene: Scene;
