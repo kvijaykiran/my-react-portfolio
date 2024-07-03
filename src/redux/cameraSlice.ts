@@ -15,8 +15,9 @@ interface CameraState {
 }
 
 const initialState: CameraState = {
-  position: {x: 0, y: 0, z: -10},
-  rotation: {x: -Math.PI / 2, y: -Math.PI / 2.5, z: 0},
+  position: {x: 0, y: 0, z: -20},
+  // rotation: {x: -Math.PI / 2, y: -Math.PI / 2.5, z: 0},
+  rotation: {x: Math.PI/3, y: -Math.PI/2, z: 0},
   //target: {x: 0, y: 0, z: 0},
 };
 

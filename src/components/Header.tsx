@@ -48,16 +48,16 @@ const Header: React.FC = () => {
       <div className="dropdown-container" ref={dropdownRef}>
 
         <div className="dropdown" onClick={toggleDropdown}>
-          Menu
+          Scene 1
           {dropdownOpen && (
             <div className="dropdown-content">
               <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>Views
                 {submenuOpen['a'] && (
                   <div className='submenu-content'>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Front'))}>Front</div>
-                  <div className="submenu-item">Left</div>
-                  <div className="submenu-item">Top</div>
-                  <div className="submenu-item">Isometric</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Front'))}>Perspective view</div>
+                  <div className="submenu-item">Orthographic view</div>
+                  <div className="submenu-item">View interpolation</div>
+                  <div className="submenu-item">Skewing</div>
                   </div>
                 )}
               </div>

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Engine, Scene, ArcRotateCamera, HemisphericLight } from '@babylonjs/core';
+import { Engine, Scene, ArcRotateCamera, HemisphericLight, DirectionalLight } from '@babylonjs/core';
 import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { Color3, Color4 } from '@babylonjs/core';
@@ -11,6 +11,8 @@ import { setPosition, setRotation } from './redux/cameraSlice';
 //import CameraController from './components/CameraController';
 import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
+import {deg2Rad, rad2Deg} from './Utils';
+import { ShadowGenerator } from '@babylonjs/core';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,6 +36,8 @@ const BabylonScene: React.FC = () => {
     scene.ambientColor = new Color3(0.2, 0.2, 0.2);
 
     // Set camera parameters
+    console.log(cameraState.position);
+    console.log(rad2Deg(cameraState.rotation.x), rad2Deg(cameraState.rotation.y), rad2Deg(cameraState.rotation.z));
     const positionVector = new Vector3(cameraState.position.x, cameraState.position.y, cameraState.position.z);
     const positionMagnitude = positionVector.length();
     const camera = new ArcRotateCamera(
@@ -57,10 +61,15 @@ const BabylonScene: React.FC = () => {
 
 
     // Set lighting parameters
-    const light = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
-    light.diffuse = new Color3(0.75, 0.75, 0.75);
-	  //light.specular = new Color3(0, 1, 0);
-	  //light.groundColor = new Color3(0, 1, 0);
+    const hlight = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
+    hlight.diffuse = new Color3(0.75, 0.75, 0.75);
+	  //hlight.specular = new Color3(0, 1, 0);
+	  //lighhlight.groundColor = new Color3(0, 1, 0);
+
+    // set directional light
+    const dlight = new DirectionalLight('dligh1', new Vector3(50, -30, 0), scene);
+    dlight.diffuse = new Color3(0.75, 0.75, 0.75);
+    dlight.position = new Vector3(0, 3, 0);
 
     // Load the OBJ file - this section will need to be moved to somewhere else
     SceneLoader.ImportMesh("", objFilePath, "", scene, (meshes) => {

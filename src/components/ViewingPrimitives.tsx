@@ -5,7 +5,7 @@ import { SkyMaterial } from '@babylonjs/materials';
 import { Color3 } from '@babylonjs/core';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import '../Utils';
-import { deg2Rad } from '../Utils';
+import { deg2Rad, rad2Deg } from '../Utils';
 
 interface ViewingPrimitivesProps {
   scene: Scene;
@@ -43,17 +43,48 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     sphereMat.diffuseColor = new Color3(1, 0.35, 0);
     //sphereMat.specularColor = Color3.Black();
     sphere.material = sphereMat;
-    sphere.translate(new Vector3(0, 1, 0), 2);
+    //sphere.translate(new Vector3(0, 1, 0), 2);
+    sphere.setAbsolutePosition(new Vector3(-2.6, 4.19, 4.47));
 
-    // cube mesh
-    const cube1 = MeshBuilder.CreateBox('boxMesh', {size: 1, width: 1, height: 1}, scene);
+    // cube1
+    const cube1 = MeshBuilder.CreateBox('cubeMesh1', {size: 2, width: 2, height: 2}, scene);
     const cube1Mat = new StandardMaterial('blueMat', scene);
     cube1Mat.diffuseColor = new Color3(0, 0, 1);
     //cube1Mat.specularColor = Color3.Black();
     cube1.material = cube1Mat;
-    cube1.translate(new Vector3(1, 1, 0), 4);
-    cube1.rotate(new Vector3(1, 1, 1), deg2Rad(45));
+    //cube1.translate(new Vector3(1, 1, 0), 4);
+    // cube1.translate(new Vector3(3.26, 4.63, -6.25), 1);
+    // cube1.rotate(new Vector3(1, 1, 1), deg2Rad(45));
+    cube1.setAbsolutePosition(new Vector3(3.26, 4.63, -6.25));
+    cube1.rotation = new Vector3(0, 0, 0);  // no rotation
 
+    // cube2
+    const cube2 = MeshBuilder.CreateBox('cubeMesh2', {size: 2, width: 2, height: 2}, scene);
+    const cube2Mat = new StandardMaterial('yellowMat', scene);
+    cube2Mat.diffuseColor = new Color3(1, 1, 0);
+    cube2.material = cube2Mat;
+    cube2.setAbsolutePosition(new Vector3(0, 2.67, -0.619));
+    cube2.rotation = new Vector3(deg2Rad(25.1), deg2Rad(3.93), deg2Rad(-12.7));
+
+    // cube3
+    const cube3 = MeshBuilder.CreateBox('cubeMesh3', {size: 2, width: 2, height: 2}, scene);
+    const cube3Mat = new StandardMaterial('greenMat', scene);
+    cube3Mat.diffuseColor = new Color3(0, 1, 0);
+    cube3.material = cube3Mat;
+    cube3.setAbsolutePosition(new Vector3(-3.56, 3.94, -2.66));
+    cube3.rotation = new Vector3(deg2Rad(52.86), deg2Rad(-17.32), deg2Rad(-12.7));
+
+
+    // cube4
+    const cube4 = MeshBuilder.CreateBox('cubeMesh3', {size: 2, width: 2, height: 2}, scene);
+    const cube4Mat = new StandardMaterial('redMat', scene);
+    cube4Mat.diffuseColor = new Color3(1, 0, 0);
+    cube4.material = cube4Mat;
+    cube4.setAbsolutePosition(new Vector3(1.35, 7.25, 1.21));
+    cube4.rotation = new Vector3(deg2Rad(52.86), deg2Rad(-17.32), deg2Rad(-12.7));
+
+
+    /*
     // cone
     const cone1 = MeshBuilder.CreateCylinder('cylinderMesh', {height: 2, diameterTop: 0, diameterBottom: 1}, scene);
     const cone1Mat = new StandardMaterial('yellowMat', scene);
@@ -80,15 +111,16 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     cube2.material = cube2Mat;
     cube2.translate(new Vector3(-1, 1, 1), 3);
     cube2.rotate(new Vector3(1, 1, 1), deg2Rad(135));
-    
+    */
     
     return () => {
       skybox.dispose();
       ground.dispose();
       sphere.dispose();
       cube1.dispose();
-      cone1.dispose();
-      cyl.dispose();
+      cube2.dispose();
+      cube3.dispose();
+      cube4.dispose();
     };
   }, [scene]);
 
