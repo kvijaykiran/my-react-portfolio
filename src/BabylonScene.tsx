@@ -1,17 +1,18 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Engine, Scene, ArcRotateCamera, HemisphericLight, DirectionalLight } from '@babylonjs/core';
-import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
+//import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { Color3, Color4 } from '@babylonjs/core';
 import '@babylonjs/loaders/OBJ/objFileLoader';
-import { computeCentroidFromBoundingBox } from './Utils';
+//import { computeCentroidFromBoundingBox } from './Utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from './redux/store';
-import { setPosition, setRotation } from './redux/cameraSlice';
-//import CameraController from './components/CameraController';
+import { setFov, setPosition_x, setPosition_y, setPosition_z, setRotation_x, setRotation_y, setRotation_z } from './redux/cameraSlice';
 import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
 import {rad2Deg} from './Utils';
+import UIElements from './components/UIElements';
+import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,6 +23,8 @@ const BabylonScene: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cameraState = useSelector((state: RootState) => state.camera);
   const selectedMenu = useSelector((state: RootState) => state.menu.selectedMenu);
+  const pvSliderFovVal = useSelector((state: RootState) => state.ui.pvsliderfov);
+  const [scene, setScene] = useState<Scene | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -35,27 +38,29 @@ const BabylonScene: React.FC = () => {
     scene.ambientColor = new Color3(0.2, 0.2, 0.2);
 
     // Set camera parameters
-    console.log(cameraState.position);
-    console.log(rad2Deg(cameraState.rotation.x), rad2Deg(cameraState.rotation.y), rad2Deg(cameraState.rotation.z));
-    const positionVector = new Vector3(cameraState.position.x, cameraState.position.y, cameraState.position.z);
-    const positionMagnitude = positionVector.length();
+    //const positionVector = new Vector3(cameraState.position_x, cameraState.position_y, cameraState.position_z);
+    //const positionMagnitude = positionVector.length();
     const camera = new ArcRotateCamera(
       'camera1', 
-      cameraState.rotation.y,
-      cameraState.rotation.x,
-      positionMagnitude,
+      cameraState.rotation_y,
+      cameraState.rotation_x,
+      20,
       new Vector3(0, 0, 0),
       scene);
     camera.minZ = 0.1;  // lowest value for minZ = 0.1
     camera.attachControl(canvasRef.current, true);
-    // const camera = new ArcRotateCamera('camera1', Math.PI / 2, Math.PI / 2, 10, new Vector3(0, 0, 0), scene);
-    // camera.attachControl(canvasRef.current, true);
-
 
     // Update Redux state when camera position or rotation changes
     camera.onViewMatrixChangedObservable.add(() => {
-      dispatch(setPosition(new Vector3(camera.position.x, camera.position.y, camera.position.z)));
-      dispatch(setRotation(new Vector3(camera.rotation.x, camera.rotation.y, camera.rotation.z)));
+      dispatch(setPosition_x(camera.position.x));
+      dispatch(setPosition_y(camera.position.y));
+      dispatch(setPosition_z(camera.position.z));
+
+      dispatch(setRotation_x(camera.rotation.x));
+      dispatch(setRotation_y(camera.rotation.y));
+      dispatch(setRotation_z(camera.rotation.z));
+
+      dispatch(setFov(camera.fov));
     });
 
 
@@ -63,13 +68,14 @@ const BabylonScene: React.FC = () => {
     const hlight = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
     hlight.diffuse = new Color3(0.75, 0.75, 0.75);
 	  //hlight.specular = new Color3(0, 1, 0);
-	  //lighhlight.groundColor = new Color3(0, 1, 0);
+	  //hlight.groundColor = new Color3(0, 1, 0);
 
     // set directional light
-    const dlight = new DirectionalLight('dligh1', new Vector3(50, -30, 0), scene);
+    const dlight = new DirectionalLight('dlight1', new Vector3(50, -30, 0), scene);
     dlight.diffuse = new Color3(0.75, 0.75, 0.75);
     dlight.position = new Vector3(0, 3, 0);
 
+    /*
     // Load the OBJ file - this section will need to be moved to somewhere else
     SceneLoader.ImportMesh("", objFilePath, "", scene, (meshes) => {
       if (meshes.length === 0) return;
@@ -84,6 +90,9 @@ const BabylonScene: React.FC = () => {
       // Optionally, center the mesh at the origin
       //mesh.position.subtractInPlace(centroid);
     });
+    */
+
+    setScene(scene);
 
     engine.runRenderLoop(() => {
       scene.render();
@@ -100,7 +109,18 @@ const BabylonScene: React.FC = () => {
       engine.dispose();
     };
 
-  }, [dispatch]);
+  }, []);
+
+
+  useEffect(() => {
+    if(scene) {
+      const myCam = scene.getCameraByName('camera1') as ArcRotateCamera;
+      if(myCam) {
+        myCam.fov = pvSliderFovVal;
+      }
+    }
+  },[scene, pvSliderFovVal]);
+
 
   //return <canvas ref={canvasRef} style={{ width: '100%', height: '100vh' }} />;
 
@@ -115,9 +135,11 @@ const BabylonScene: React.FC = () => {
       <>
         <canvas ref={canvasRef} style={{ width: '100%', height: '100vh'}} />
         {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
-        {selectedMenu === 'Front' && sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
+        {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
+        {sceneRef.current && < UIElements guiTexture = {AdvancedDynamicTexture.CreateFullscreenUI("UI")}/>}
       </>
   );
+  // {selectedMenu === 'Front' && sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
   
 };
 
