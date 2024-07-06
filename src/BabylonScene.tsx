@@ -10,7 +10,7 @@ import { RootState, AppDispatch } from './redux/store';
 import { setFov, setPosition_x, setPosition_y, setPosition_z, setRotation_x, setRotation_y, setRotation_z } from './redux/cameraSlice';
 import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
-import {rad2Deg} from './Utils';
+//import {rad2Deg} from './Utils';
 import UIElements from './components/UIElements';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
@@ -19,10 +19,10 @@ const BabylonScene: React.FC = () => {
   const sceneRef = useRef<Scene | null>(null);
   const engineRef = useRef<Engine | null>(null);
   //const baseUrl = import.meta.env.BASE_URL;
-  const objFilePath = "/my-react-portfolio/geometry/RevolvePart.obj";
+  //const objFilePath = "/my-react-portfolio/geometry/RevolvePart.obj";
   const dispatch = useDispatch<AppDispatch>();
   const cameraState = useSelector((state: RootState) => state.camera);
-  const selectedMenu = useSelector((state: RootState) => state.menu.selectedMenu);
+  //const selectedMenu = useSelector((state: RootState) => state.menu.selectedMenu);
   const pvSliderFovVal = useSelector((state: RootState) => state.ui.pvsliderfov);
   const [scene, setScene] = useState<Scene | null>(null);
 

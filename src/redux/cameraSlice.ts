@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Vector3 } from '@babylonjs/core/Maths/math.vector';
+//import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import {deg2Rad} from '../Utils';
 
 interface CameraState {
