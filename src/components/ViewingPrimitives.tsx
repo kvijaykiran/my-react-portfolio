@@ -35,27 +35,23 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     groundMat.diffuseColor = new Color3(115/255, 97/255, 83/255);
     groundMat.specularColor = Color3.Black();
     ground.material = groundMat;
+    ground.setAbsolutePosition(new Vector3(0, -5, 0));
 
 
     // sphere mesh
     const sphere = MeshBuilder.CreateSphere('sphereMesh', { diameter: 1 }, scene);
     const sphereMat = new StandardMaterial("orangeMat", scene);
     sphereMat.diffuseColor = new Color3(1, 0.35, 0);
-    //sphereMat.specularColor = Color3.Black();
+    sphereMat.specularColor = Color3.Black();
     sphere.material = sphereMat;
-    //sphere.translate(new Vector3(0, 1, 0), 2);
-    sphere.setAbsolutePosition(new Vector3(-2.6, 4.19, 4.47));
+    sphere.setAbsolutePosition(new Vector3(-2.26, -0.81, 4.47));
 
     // cube1
     const cube1 = MeshBuilder.CreateBox('cubeMesh1', {size: 2, width: 2, height: 2}, scene);
     const cube1Mat = new StandardMaterial('blueMat', scene);
     cube1Mat.diffuseColor = new Color3(0, 0, 1);
-    //cube1Mat.specularColor = Color3.Black();
     cube1.material = cube1Mat;
-    //cube1.translate(new Vector3(1, 1, 0), 4);
-    // cube1.translate(new Vector3(3.26, 4.63, -6.25), 1);
-    // cube1.rotate(new Vector3(1, 1, 1), deg2Rad(45));
-    cube1.setAbsolutePosition(new Vector3(3.26, 4.63, -6.25));
+    cube1.setAbsolutePosition(new Vector3(3.26, -0.37, -6.25));
     cube1.rotation = new Vector3(0, 0, 0);  // no rotation
 
     // cube2
@@ -63,7 +59,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube2Mat = new StandardMaterial('yellowMat', scene);
     cube2Mat.diffuseColor = new Color3(1, 1, 0);
     cube2.material = cube2Mat;
-    cube2.setAbsolutePosition(new Vector3(0, 2.67, -0.619));
+    cube2.setAbsolutePosition(new Vector3(0, -2.33, -0.619));
     cube2.rotation = new Vector3(deg2Rad(25.1), deg2Rad(3.93), deg2Rad(-12.7));
 
     // cube3
@@ -71,7 +67,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube3Mat = new StandardMaterial('greenMat', scene);
     cube3Mat.diffuseColor = new Color3(0, 1, 0);
     cube3.material = cube3Mat;
-    cube3.setAbsolutePosition(new Vector3(-3.56, 3.94, -2.66));
+    cube3.setAbsolutePosition(new Vector3(-3.56, -1.06, -2.66));
     cube3.rotation = new Vector3(deg2Rad(52.86), deg2Rad(-17.32), deg2Rad(-12.7));
 
 
@@ -80,7 +76,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube4Mat = new StandardMaterial('redMat', scene);
     cube4Mat.diffuseColor = new Color3(1, 0, 0);
     cube4.material = cube4Mat;
-    cube4.setAbsolutePosition(new Vector3(1.35, 7.25, 1.21));
+    cube4.setAbsolutePosition(new Vector3(1.35, 2.25, 1.21));
     cube4.rotation = new Vector3(deg2Rad(52.86), deg2Rad(-17.32), deg2Rad(-12.7));
 
 

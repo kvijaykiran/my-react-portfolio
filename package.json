@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@babylonjs/core": "^7.11.2",
+    "@babylonjs/gui": "^7.14.0",
     "@babylonjs/loaders": "^7.11.2",
     "@babylonjs/materials": "^7.13.1",
     "@reduxjs/toolkit": "^2.2.5",
