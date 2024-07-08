@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Engine, EngineInstrumentation, Scene, SceneInstrumentation } from '@babylonjs/core';
-import { StackPanel, TextBlock } from '@babylonjs/gui';
-import { AdvancedDynamicTexture } from '@babylonjs/gui';
+//import { StackPanel, TextBlock } from '@babylonjs/gui';
+//import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
 // Not implemented yet - https://playground.babylonjs.com/#YBDK7C, Thank you!
 
