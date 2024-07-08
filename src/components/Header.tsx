@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { setPosition, setTarget } from '../redux/cameraSlice';
-// import { setPosition } from '../redux/cameraSlice';
 import '../styles/_header.scss';
-// import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { selectMenu } from '../redux/menuSlice';
 
 const Header: React.FC = () => {
@@ -26,14 +23,6 @@ const Header: React.FC = () => {
       setSubmenuOpen({});
     }
   };
-
-  // const handleMenuClick = (item: string) => {
-  //   if (item === 'Front') {
-  //     dispatch(setPosition(new Vector3(0, 0, 10))); // Front view position
-  //     dispatch(setTarget(new Vector3(0, 0, 0))); // Target position
-  //   }
-  //   // Add more conditions for other menu items if needed
-  // };
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);

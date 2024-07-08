@@ -16,7 +16,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     
     while(scene.meshes.length) {
         const mesh = scene.meshes[0];
-        console.log(mesh.name)
+        //console.log(mesh.name)
         mesh.dispose();
         }
 

@@ -1,16 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Engine, Scene, ArcRotateCamera, HemisphericLight, DirectionalLight } from '@babylonjs/core';
-//import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { Color3, Color4 } from '@babylonjs/core';
 import '@babylonjs/loaders/OBJ/objFileLoader';
-//import { computeCentroidFromBoundingBox } from './Utils';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from './redux/store';
-import { setFov, setPosition_x, setPosition_y, setPosition_z, setRotation_x, setRotation_y, setRotation_z } from './redux/cameraSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from './redux/store';
 import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
-//import {rad2Deg} from './Utils';
 import UIElements from './components/UIElements';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
@@ -20,11 +16,11 @@ const BabylonScene: React.FC = () => {
   const engineRef = useRef<Engine | null>(null);
   //const baseUrl = import.meta.env.BASE_URL;
   //const objFilePath = "/my-react-portfolio/geometry/RevolvePart.obj";
-  const dispatch = useDispatch<AppDispatch>();
   const cameraState = useSelector((state: RootState) => state.camera);
   //const selectedMenu = useSelector((state: RootState) => state.menu.selectedMenu);
-  const pvSliderFovVal = useSelector((state: RootState) => state.ui.pvsliderfov);
+  const pvSliderFovVal = useSelector((state: RootState) => state.ui.sliderval_pvfov);
   const [scene, setScene] = useState<Scene | null>(null);
+  const [guiTexture, setGuiTexture] = useState<AdvancedDynamicTexture | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -50,19 +46,8 @@ const BabylonScene: React.FC = () => {
     camera.minZ = 0.1;  // lowest value for minZ = 0.1
     camera.attachControl(canvasRef.current, true);
 
-    // Update Redux state when camera position or rotation changes
-    camera.onViewMatrixChangedObservable.add(() => {
-      dispatch(setPosition_x(camera.position.x));
-      dispatch(setPosition_y(camera.position.y));
-      dispatch(setPosition_z(camera.position.z));
-
-      dispatch(setRotation_x(camera.rotation.x));
-      dispatch(setRotation_y(camera.rotation.y));
-      dispatch(setRotation_z(camera.rotation.z));
-
-      dispatch(setFov(camera.fov));
-    });
-
+    const newGuiTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    setGuiTexture(newGuiTexture);
 
     // Set lighting parameters
     const hlight = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
@@ -121,25 +106,14 @@ const BabylonScene: React.FC = () => {
     }
   },[scene, pvSliderFovVal]);
 
-
-  //return <canvas ref={canvasRef} style={{ width: '100%', height: '100vh' }} />;
-
-  // return (
-  //   <>
-  //     <canvas ref={canvasRef} style={{ width: '100%', height: '100vh' }} />
-  //     {sceneRef.current && <CameraController scene={sceneRef.current} />}
-  //   </>
-  // );
-
   return (
       <>
         <canvas ref={canvasRef} style={{ width: '100%', height: '100vh'}} />
         {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
-        {sceneRef.current && < UIElements guiTexture = {AdvancedDynamicTexture.CreateFullscreenUI("UI")}/>}
+        {guiTexture && < UIElements guiTexture={guiTexture}/>}
       </>
   );
-  // {selectedMenu === 'Front' && sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
   
 };
 
