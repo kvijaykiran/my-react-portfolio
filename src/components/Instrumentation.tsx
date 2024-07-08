@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Engine, EngineInstrumentation, Scene, SceneInstrumentation } from '@babylonjs/core';
 import { StackPanel, TextBlock } from '@babylonjs/gui';
-import { deg2Rad } from '../Utils';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
+// Not implemented yet - https://playground.babylonjs.com/#YBDK7C, Thank you!
 
 interface InstrumentationProps {
     scene: Scene;
@@ -36,7 +36,7 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
         //     return videoTextureCounter;
         //   }
 
-        
+
 
 
 

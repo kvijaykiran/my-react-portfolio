@@ -1,30 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { deg2Rad } from '../Utils';
 
 interface SliderState {
-    pvsliderfov: number;    // perspective view fov slider
-    pvsliderfovtitle: string;
+    sliderval_pvfov: number;    // perspective view fov slider
 }
 
 const initialState: SliderState = {
-    pvsliderfov: 0.8,
-    pvsliderfovtitle: 'Camera FOV: 45 °',
+    sliderval_pvfov: deg2Rad(45),
 }
 
 const uiSlice = createSlice({
     name: 'UI',
     initialState,
     reducers: {
-        setSliderPVFov: (state, action: PayloadAction<number>) => {
-            state.pvsliderfov = action.payload;
-        },
-
-        setSliderPVFovTitle: (state, action: PayloadAction<string>) => {
-            state.pvsliderfovtitle = action.payload;
+        setSliderPVFovVal: (state, action: PayloadAction<number>) => {
+            state.sliderval_pvfov = action.payload;
         },
 
     },
 });
 
-export const {setSliderPVFov, setSliderPVFovTitle} = uiSlice.actions;
+export const {setSliderPVFovVal} = uiSlice.actions;
 
 export default uiSlice.reducer;

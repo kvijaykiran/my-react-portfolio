@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-//import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import {deg2Rad} from '../Utils';
 
 interface CameraState {
@@ -28,7 +27,7 @@ const initialState: CameraState = {
   rotation_y: deg2Rad(-90),
   rotation_z: 0,
   
-  fov: 0.8, // default for Babylonjs
+  fov: deg2Rad(45), // default for Babylonjs
 };
 
 const cameraSlice = createSlice({
