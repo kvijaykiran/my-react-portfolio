@@ -136,9 +136,11 @@ const BabylonScene: React.FC = () => {
         <canvas ref={canvasRef} style={{ width: '100%', height: '100vh'}} />
         {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
-        {sceneRef.current && < UIElements guiTexture = {AdvancedDynamicTexture.CreateFullscreenUI("UI")}/>}
+        {sceneRef.current && < UIElements />}
       </>
   );
+  // {sceneRef.current && < UIElements guiTexture={AdvancedDynamicTexture.CreateFullscreenUI("UI")}/>}
+
   // {selectedMenu === 'Front' && sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
   
 };

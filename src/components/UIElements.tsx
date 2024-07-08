@@ -1,27 +1,27 @@
-import { AdvancedDynamicTexture, Slider } from '@babylonjs/gui';
+import { AdvancedDynamicTexture, Slider, TextBlock, Control, Rectangle } from '@babylonjs/gui';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
-import { deg2Rad } from '../Utils';
-import { setSliderPVFov } from '../redux/uiSlice';
+import { deg2Rad, rad2Deg } from '../Utils';
+import { setSliderPVFov, setSliderPVFovTitle } from '../redux/uiSlice';
 
 interface UIElementsProps {
-    guiTexture: AdvancedDynamicTexture;
+    //guiTexture: AdvancedDynamicTexture;
   }
 
-const UIElements: React.FC<UIElementsProps> = ({ guiTexture }) => {
+const UIElements: React.FC<UIElementsProps> = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     // get current selected menu item ID via redux store
-    const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
-    const pvSliderFovVal = useSelector((state: RootState) => state.ui.pvsliderfov);
-    console.log("current selected menu item: ", selectedMenuItem);
+    //const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
+    const pvSliderFovVal = useSelector((state: RootState) => state.camera.fov);
+    // console.log("current selected menu item: ", selectedMenuItem);
    
     useEffect(() => {
         
         // If selected, dispose other UI elements and activate 
         // Perspective view (i.e., FOV angle, front and rear clipping plane)
-        const pvCleanup = PerspectiveView(guiTexture, pvSliderFovVal, dispatch);
+        const pvCleanup = PerspectiveView(dispatch);
 
 
         // If selected, dispose other UI elements and activate 
@@ -33,28 +33,60 @@ const UIElements: React.FC<UIElementsProps> = ({ guiTexture }) => {
         return pvCleanup;
     
 
-    }, [dispatch, guiTexture, pvSliderFovVal]);
+    }, [dispatch, pvSliderFovVal]);
 
 
 
     // perspective view function
-    const PerspectiveView = (guiTexture: AdvancedDynamicTexture, sliderValue: number, dispatch: AppDispatch) => {
+    const PerspectiveView = (dispatch: AppDispatch) => {
+        const guiTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
+        const sliderContainer = new Rectangle();
+        sliderContainer.width = "300px";
+        sliderContainer.heightInPixels = 200;
+        sliderContainer.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        sliderContainer.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+        //sliderContainer.paddingTop = "250px";
+        //sliderContainer.paddingRight = "20px";
+        sliderContainer.top = "20px";
+        sliderContainer.background = "black";
+        sliderContainer.alpha = 0.7;
+        guiTexture.addControl(sliderContainer);
+
+        // Slider label
+        const sliderLabel = new TextBlock();
+        //sliderLabel.text = `blah Camera FOV: ${rad2Deg(pvSliderFovVal).toFixed(1)}°`;
+        sliderLabel.text = pvSliderFovVal.toString();
+        sliderLabel.heightInPixels = 60;
+        sliderLabel.color = "white";
+        sliderLabel.fontSize = 12;
+        sliderLabel.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
+        //sliderLabel.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
+        sliderContainer.addControl(sliderLabel);
+        
         // Create the slider
         const slider = new Slider();
-        slider.minimum = deg2Rad(30);
-        slider.maximum = deg2Rad(75);
-        slider.value = sliderValue; //deg2Rad(45); // sliderValue; comes from redux sync
-        console.log(slider.value);
-        slider.height = '20px';
+        slider.minimum = deg2Rad(0);
+        slider.maximum = deg2Rad(150);
+        slider.value = pvSliderFovVal; //deg2Rad(45); // sliderValue; comes from redux sync
+        //console.log(slider.value);
+//        slider.height = '20px';
+        slider.heightInPixels = sliderLabel.heightInPixels - 40;
         slider.width = '200px';
         slider.color = "white";
+        slider.paddingBottom = "5px";
+        slider.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
         slider.onValueChangedObservable.add((value) => {
             dispatch(setSliderPVFov(value));
+            //sliderLabel.text = `Camera FOV: ${rad2Deg(pvSliderFovVal).toFixed(1)}°`;
+            sliderLabel.text = pvSliderFovVal.toString();
         });
-        guiTexture.addControl(slider);
+        //guiTexture.addControl(slider);
+        sliderContainer.addControl(slider);
 
+        //return guiTexture.removeControl(sliderContainer);
         return () => {
-            guiTexture.removeControl(slider);
+            //guiTexture.removeControl(slider);
+            guiTexture.removeControl(sliderContainer);
         };
       };
 
