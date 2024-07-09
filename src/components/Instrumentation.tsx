@@ -74,9 +74,12 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
             cameraRenderTime.text = "Camera Render Time: " + sceneInstrumentation.cameraRenderTimeCounter.current.toFixed();
             targetsRenderTime.text = "Targets Render Time: " + sceneInstrumentation.renderTargetsRenderTimeCounter.current.toFixed();
             fpsValue.text = "FPS: " + engine.getFps().toFixed() + " fps";
-            heapSize.text = "Heap Used: " + (!performance.memory? "unavailable" : ((performance.memory.usedJSHeapSize / 1024) / 1024).toFixed() + " Mb");
-            heapTotal.text = "Heap Total: " + (!performance.memory? "unavailable" : ((performance.memory.totalJSHeapSize / 1024) / 1024).toFixed() + " Mb");
-            heapLimit.text = "Heap Limit: " + (!performance.memory? "unavailable" : ((performance.memory.jsHeapSizeLimit / 1024) / 1024).toFixed() + " Mb");
+            if(window.performance && (window.performance as any).memory) {
+                const memory = (window.performance as any).memory;
+                heapSize.text = "Heap used: " + ((memory.usedJSHeapSize / 1024)/1024).toFixed() + " MB";
+                heapTotal.text = "Heap used: " + ((memory.totalJSHeapSize / 1024)/1024).toFixed() + " MB";
+                heapLimit.text = "Heap used: " + ((memory.jsHeapSizeLimit / 1024)/1024).toFixed() + " MB";
+            }
             if(scene.deltaTime){
                 deltaTimeValue.text = "Delta Time: " + scene.deltaTime.toFixed(2);
             }
