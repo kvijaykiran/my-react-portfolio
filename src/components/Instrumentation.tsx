@@ -27,17 +27,6 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
         engineInstrumentation.captureGPUFrameTime = true;
         engineInstrumentation.captureShaderCompilationTime = true;
 
-        // function videoTextureCount() {
-        //     let videoTextureCounter = 0;
-        //     for (let i = 0; i < scene.textures.length; i++) {
-        //       if (scene.textures[i].video) {
-        //         videoTextureCounter++;
-        //         console.log(scene.textures[i])
-        //       }
-        //     }
-        //     return videoTextureCounter;
-        //   }
-
         const panelAdd = addGuiPanel(guiTexture, 0, 0);
         const meshesLength = addInstrumentationTextBlock(panelAdd, 'Meshes: ');
         const activeMeshesLength = addInstrumentationTextBlock(panelAdd, 'Active Meshes: ');
@@ -45,7 +34,6 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
         const activeIndices = addInstrumentationTextBlock(panelAdd, 'Active Indices: ');
         const materialsLength = addInstrumentationTextBlock(panelAdd, 'Materials: ');
         const texturesLength = addInstrumentationTextBlock(panelAdd, 'Textures: ');
-        // const videoTexturesLength = addInstrumentationTextBlock(panelAdd, 'Video Textures: ');
         const animationLength = addInstrumentationTextBlock(panelAdd, 'Animations: ');
         const drawCalls = addInstrumentationTextBlock(panelAdd, 'Draw Calls: ');
         const totalLights = addInstrumentationTextBlock(panelAdd, 'Lights: ');
@@ -72,7 +60,6 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
             activeIndices.text = `Active Indices: ${scene.totalActiveIndicesPerfCounter.current.toLocaleString()}`;
             materialsLength.text = "Materials: " + scene.materials.length;
             texturesLength.text = "Textures: " + scene.textures.length;
-            // videoTexturesLength.text = "Video Textures: " + videoTextureCount();
             animationLength.text = "Animations: " + scene.animatables.length;
             drawCalls.text = "Draw Calls: " + sceneInstrumentation.drawCallsCounter.current;
             totalLights.text = "Lights: " + scene.lights.length;
@@ -116,7 +103,6 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
         panel.paddingLeft = "20px";
         panel.paddingBottom = "5px";
         panel.paddingRight = "10px";
-        // panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
         guiTexture.addControl(panel);
         return panel;
     }
