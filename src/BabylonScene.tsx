@@ -9,6 +9,7 @@ import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
 import UIElements from './components/UIElements';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
+import Instrumentation from './components/Instrumentation';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -112,6 +113,7 @@ const BabylonScene: React.FC = () => {
         {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
         {guiTexture && < UIElements guiTexture={guiTexture}/>}
+        {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}
       </>
   );
   
