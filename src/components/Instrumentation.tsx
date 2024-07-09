@@ -76,9 +76,9 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
             fpsValue.text = "FPS: " + engine.getFps().toFixed() + " fps";
             if(window.performance && (window.performance as any).memory) {
                 const memory = (window.performance as any).memory;
-                heapSize.text = "Heap used: " + ((memory.usedJSHeapSize / 1024)/1024).toFixed() + " MB";
-                heapTotal.text = "Heap used: " + ((memory.totalJSHeapSize / 1024)/1024).toFixed() + " MB";
-                heapLimit.text = "Heap used: " + ((memory.jsHeapSizeLimit / 1024)/1024).toFixed() + " MB";
+                heapSize.text = "Heap used: " + ((memory.usedJSHeapSize / 1024)/1024).toFixed(2) + " MB";
+                heapTotal.text = "Heap total: " + ((memory.totalJSHeapSize / 1024)/1024).toFixed(2) + " MB";
+                heapLimit.text = "Heap limit: " + ((memory.jsHeapSizeLimit / 1024)/1024).toFixed(2) + " MB";
             }
             if(scene.deltaTime){
                 deltaTimeValue.text = "Delta Time: " + scene.deltaTime.toFixed(2);
