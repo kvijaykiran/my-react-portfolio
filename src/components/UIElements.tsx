@@ -19,7 +19,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
     // get current selected menu item ID via redux store
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
     const pvSliderFovVal = useSelector((state: RootState) => state.ui.sliderval_pvfov);
-    const clipPlaneVertVal = useSelector((state: RootState) => state.ui.clipplaneval_v);
+    //const clipPlaneVertVal = useSelector((state: RootState) => state.ui.clipplaneval_v);
     //console.log("current selected menu item: ", selectedMenuItem);
    
     // guiContainer rectangle
