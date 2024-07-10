@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Engine, Scene, ArcRotateCamera, HemisphericLight, DirectionalLight } from '@babylonjs/core';
+import { Engine, Scene, Camera, ArcRotateCamera, HemisphericLight, DirectionalLight, Plane } from '@babylonjs/core';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { Color3, Color4 } from '@babylonjs/core';
 import '@babylonjs/loaders/OBJ/objFileLoader';
@@ -18,10 +18,14 @@ const BabylonScene: React.FC = () => {
   //const baseUrl = import.meta.env.BASE_URL;
   //const objFilePath = "/my-react-portfolio/geometry/RevolvePart.obj";
   const cameraState = useSelector((state: RootState) => state.camera);
-  //const selectedMenu = useSelector((state: RootState) => state.menu.selectedMenu);
-  const pvSliderFovVal = useSelector((state: RootState) => state.ui.sliderval_pvfov);
   const [scene, setScene] = useState<Scene | null>(null);
   const [guiTexture, setGuiTexture] = useState<AdvancedDynamicTexture | null>(null);
+  const [camera, setCamera] = useState<ArcRotateCamera | null>(null);
+  const isPerspectiveView = useSelector((state: RootState) => state.ui.isPerspectiveView);
+  const fieldOfView = useSelector((state: RootState) => state.ui.fieldOfView);
+  const sceneClippingH = useSelector((state: RootState) => state.ui.clipPlaneH);
+  const sceneClippingV = useSelector((state: RootState) => state.ui.clipPlaneV);
+
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -37,15 +41,20 @@ const BabylonScene: React.FC = () => {
     // Set camera parameters
     //const positionVector = new Vector3(cameraState.position_x, cameraState.position_y, cameraState.position_z);
     //const positionMagnitude = positionVector.length();
-    const camera = new ArcRotateCamera(
+    const arcCamera = new ArcRotateCamera(
       'camera1', 
       cameraState.rotation_y,
       cameraState.rotation_x,
       20,
       new Vector3(0, 0, 0),
       scene);
-    camera.minZ = 0.1;  // lowest value for minZ = 0.1
-    camera.attachControl(canvasRef.current, true);
+      arcCamera.minZ = 0.1;  // lowest value for minZ = 0.1
+      arcCamera.attachControl(canvasRef.current, true);
+
+    scene.activeCamera = arcCamera;
+    setCamera(arcCamera);
+
+    
 
     const newGuiTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
     setGuiTexture(newGuiTexture);
@@ -97,22 +106,50 @@ const BabylonScene: React.FC = () => {
 
   }, []);
 
+  useEffect(() => {
+    if(camera) {
+      camera.mode = isPerspectiveView ? Camera.PERSPECTIVE_CAMERA : Camera.ORTHOGRAPHIC_CAMERA;
+      // Set left, right, top, and bottom for orthographic cameras explicitly
+      if(!isPerspectiveView) {
+        camera.orthoLeft = -20; // hardcoded for now but can be dependent on the extents of the bounding box of all objects in scene 
+        camera.orthoRight = 20;
+        const ratio = canvasRef.current.height / canvasRef.current.width;
+        camera.orthoTop = camera.orthoRight * ratio;
+        camera.orthoBottom = camera.orthoLeft * ratio;
+        let oldRad = camera.radius;
+        scene.onBeforeRenderObservable.add(() => {
+          if (oldRad !== camera.radius) {
+            const radChangeRatio = camera.radius/oldRad;
+            camera.orthoLeft *= radChangeRatio;
+            camera.orthoRight *= radChangeRatio;
+            oldRad = camera.radius;
+            camera.orthoTop = camera.orthoRight * ratio;
+            camera.orthoBottom = camera.orthoLeft * ratio;
+          }
+        })
+      }
+    }
+  }, [camera, isPerspectiveView]);
+
+  useEffect(() => {
+    if(camera) {
+      camera.fov = fieldOfView;
+    }
+  }, [camera, fieldOfView]);
 
   useEffect(() => {
     if(scene) {
-      const myCam = scene.getCameraByName('camera1') as ArcRotateCamera;
-      if(myCam) {
-        myCam.fov = pvSliderFovVal;
-      }
+      // Scene clipping
+      scene.clipPlane = new Plane(1, 0, 0, sceneClippingH);
+      scene.clipPlane2 = new Plane(0, 1, 0, sceneClippingV);
     }
-  },[scene, pvSliderFovVal]);
+  }, [scene, sceneClippingH, sceneClippingV]);
 
   return (
       <>
         <canvas ref={canvasRef} style={{ width: '100%', height: '100vh'}} />
         {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
-        {/* {guiTexture && < UIElements scene = {sceneRef.current} guiTexture={guiTexture}/>} */}
         {guiTexture && < UIElements guiTexture={guiTexture}/>}
         {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}
       </>

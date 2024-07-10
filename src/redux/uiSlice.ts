@@ -2,38 +2,44 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deg2Rad } from '../Utils';
 
 interface SliderState {
-    sliderval_pvfov: number;    // perspective view fov slider
-    clipplaneval_h: number;
-    clipplaneval_v: number;
+    isPerspectiveView: boolean;
+    fieldOfView: number;    // perspective view fov slider
+    clipPlaneH: number;
+    clipPlaneV: number;
 
 }
 
 const initialState: SliderState = {
-    sliderval_pvfov: deg2Rad(45),
-    clipplaneval_h: 0,
-    clipplaneval_v: 0,
+    isPerspectiveView: true,
+    fieldOfView: deg2Rad(45),
+    clipPlaneH: -10,
+    clipPlaneV: -10,
 }
 
 const uiSlice = createSlice({
     name: 'UI',
     initialState,
     reducers: {
-        setSliderPVFovVal: (state, action: PayloadAction<number>) => {
-            state.sliderval_pvfov = action.payload;
+        setIsPerspectiveView: (state, action: PayloadAction<boolean>) => {
+            state.isPerspectiveView = action.payload;
+        },
+
+        setSliderFov: (state, action: PayloadAction<number>) => {
+            state.fieldOfView = action.payload;
         },
 
         setClipPlaneH: (state, action: PayloadAction<number>) => {
-            state.clipplaneval_h = action.payload;
+            state.clipPlaneH = action.payload;
         },
 
         setClipPlaneV: (state, action: PayloadAction<number>) => {
-            state.clipplaneval_v = action.payload;
+            state.clipPlaneV = action.payload;
         },
 
 
     },
 });
 
-export const {setSliderPVFovVal, setClipPlaneH, setClipPlaneV} = uiSlice.actions;
+export const {setIsPerspectiveView, setSliderFov, setClipPlaneH, setClipPlaneV} = uiSlice.actions;
 
 export default uiSlice.reducer;
