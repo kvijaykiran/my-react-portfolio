@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import '../styles/_header.scss';
-import { selectMenu } from '../redux/menuSlice';
+//import { selectMenu } from '../redux/menuSlice';
 
 const Header: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState< { [key: string]: boolean}>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
