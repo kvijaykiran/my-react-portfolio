@@ -4,16 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
 import { deg2Rad, rad2Deg } from '../Utils';
 import { setSliderPVFovVal, setClipPlaneV } from '../redux/uiSlice';
-import { Plane, Scene } from '@babylonjs/core';
+//import { Plane, Scene } from '@babylonjs/core';
 
 interface UIElementsProps {
-    scene: Scene;
+    // scene: Scene;
     guiTexture: AdvancedDynamicTexture;
   }
 
 
 
-const UIElements: React.FC<UIElementsProps> = ({scene, guiTexture}) => {
+const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
     const dispatch = useDispatch<AppDispatch>();
 
     // get current selected menu item ID via redux store
@@ -33,7 +33,8 @@ const UIElements: React.FC<UIElementsProps> = ({scene, guiTexture}) => {
         // If selected, dispose other UI elements and activate 
         // Perspective view (i.e., FOV angle, front and rear clipping plane)
         if(selectedMenuItem === 'Perspective View') {
-            const pvCleanup = PerspectiveView(scene, guiTexture, pvSliderFovVal, clipPlaneVertVal, dispatch);
+            // const pvCleanup = PerspectiveView(guiTexture, pvSliderFovVal, clipPlaneVertVal, dispatch);
+            const pvCleanup = PerspectiveView(guiTexture, pvSliderFovVal, dispatch);
             return pvCleanup;
         }
 
@@ -53,7 +54,8 @@ const UIElements: React.FC<UIElementsProps> = ({scene, guiTexture}) => {
 
 // Update code with using a different transform panel: https://playground.babylonjs.com/#9M6M2I
 // perspective view function
-const PerspectiveView = (scene: Scene, guiTexture: AdvancedDynamicTexture, sliderVal: number, clipPlaneVertVal: number, dispatch: AppDispatch) => {
+//const PerspectiveView = (scene: Scene, guiTexture: AdvancedDynamicTexture, sliderVal: number, clipPlaneVertVal: number, dispatch: AppDispatch) => {
+    const PerspectiveView = (guiTexture: AdvancedDynamicTexture, sliderVal: number, dispatch: AppDispatch) => {
     //const guiTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
     const guiContainer = new Rectangle();
     guiContainer.width = "300px";
