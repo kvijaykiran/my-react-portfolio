@@ -43,6 +43,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const sphereMat = new StandardMaterial("orangeMat", scene);
     sphereMat.diffuseColor = new Color3(1, 0.35, 0);
     sphereMat.specularColor = Color3.Black();
+    sphereMat.backFaceCulling = false;
     sphere.material = sphereMat;
     sphere.setAbsolutePosition(new Vector3(-2.26, -0.81, 4.47));
 
@@ -50,6 +51,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube1 = MeshBuilder.CreateBox('cubeMesh1', {size: 2, width: 2, height: 2}, scene);
     const cube1Mat = new StandardMaterial('blueMat', scene);
     cube1Mat.diffuseColor = new Color3(0, 0, 1);
+    cube1Mat.backFaceCulling = false;
     cube1.material = cube1Mat;
     cube1.setAbsolutePosition(new Vector3(3.26, -0.37, -6.25));
     cube1.rotation = new Vector3(0, 0, 0);  // no rotation
@@ -58,6 +60,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube2 = MeshBuilder.CreateBox('cubeMesh2', {size: 2, width: 2, height: 2}, scene);
     const cube2Mat = new StandardMaterial('yellowMat', scene);
     cube2Mat.diffuseColor = new Color3(1, 1, 0);
+    cube2Mat.backFaceCulling = false;
     cube2.material = cube2Mat;
     cube2.setAbsolutePosition(new Vector3(0, -2.33, -0.619));
     cube2.rotation = new Vector3(deg2Rad(25.1), deg2Rad(3.93), deg2Rad(-12.7));
@@ -66,6 +69,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube3 = MeshBuilder.CreateBox('cubeMesh3', {size: 2, width: 2, height: 2}, scene);
     const cube3Mat = new StandardMaterial('greenMat', scene);
     cube3Mat.diffuseColor = new Color3(0, 1, 0);
+    cube3Mat.backFaceCulling = false;
     cube3.material = cube3Mat;
     cube3.setAbsolutePosition(new Vector3(-3.56, -1.06, -2.66));
     cube3.rotation = new Vector3(deg2Rad(52.86), deg2Rad(-17.32), deg2Rad(-12.7));
@@ -75,6 +79,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     const cube4 = MeshBuilder.CreateBox('cubeMesh3', {size: 2, width: 2, height: 2}, scene);
     const cube4Mat = new StandardMaterial('redMat', scene);
     cube4Mat.diffuseColor = new Color3(1, 0, 0);
+    cube4Mat.backFaceCulling = false;
     cube4.material = cube4Mat;
     cube4.setAbsolutePosition(new Vector3(1.35, 2.25, 1.21));
     cube4.rotation = new Vector3(deg2Rad(52.86), deg2Rad(-17.32), deg2Rad(-12.7));
