@@ -36,17 +36,17 @@ const Header: React.FC = () => {
       <div className="logo">Logo</div>
       <div className="dropdown-container" ref={dropdownRef}>
 
-        <div className="dropdown" onClick={toggleDropdown}>
-          Scene 1
+        <div className="dropdown" onMouseEnter={() => toggleDropdown()} onMouseLeave={() => toggleDropdown()}>
+          Menu
           {dropdownOpen && (
             <div className="dropdown-content">
               <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>Views
                 {submenuOpen['a'] && (
                   <div className='submenu-content'>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Front'))}>Perspective view</div>
-                  <div className="submenu-item">Orthographic view</div>
-                  <div className="submenu-item">View interpolation</div>
-                  <div className="submenu-item">Skewing</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Perspective View'))}>Perspective view</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Orthographic View'))}>Orthographic view</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('View interpolation'))}>View interpolation</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Skewing'))}>Skewing</div>
                   </div>
                 )}
               </div>

@@ -112,7 +112,7 @@ const BabylonScene: React.FC = () => {
         <canvas ref={canvasRef} style={{ width: '100%', height: '100vh'}} />
         {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
-        {guiTexture && < UIElements guiTexture={guiTexture}/>}
+        {guiTexture && < UIElements scene = {sceneRef.current} guiTexture={guiTexture}/>}
         {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}
       </>
   );
