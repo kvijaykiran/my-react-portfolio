@@ -3,7 +3,7 @@ import { Engine, EngineInstrumentation, Scene, SceneInstrumentation } from '@bab
 import { StackPanel, TextBlock, Control } from '@babylonjs/gui';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
-// Not implemented yet - https://playground.babylonjs.com/#YBDK7C, Thank you!
+// https://playground.babylonjs.com/#YBDK7C, Thank you!
 
 interface InstrumentationProps {
     scene: Scene;
