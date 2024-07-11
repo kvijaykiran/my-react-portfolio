@@ -1,4 +1,5 @@
 //import * as BABYLON from '@babylonjs/core';
+import { Scene } from '@babylonjs/core';
 import { AbstractMesh } from '@babylonjs/core';
 import { Color3 } from '@babylonjs/core';
 import { Vector3 } from '@babylonjs/core';
@@ -42,6 +43,17 @@ export const computeCentroidPrecise = (mesh: AbstractMesh): Vector3 => {
 
   return centroid;
 };
+
+
+// Dispose meshes by pattern
+export const disposeMeshesByPattern = (scene: Scene, pattern: string) : void => {
+  const meshesToDispose: AbstractMesh[] = scene.meshes.filter((mesh: AbstractMesh) => mesh.name.endsWith(pattern));
+  meshesToDispose.forEach((mesh: AbstractMesh) => {
+    mesh.dispose();
+    console.log(`Disposed mesh: ${mesh.name}`);
+  });
+}
+
 
 export const drawCircle = (radius: number, centrX: number, centrZ: number, color: Color3) => {
 //  const circle = MeshBuilder.CreateLines('circle', {})

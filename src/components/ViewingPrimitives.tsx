@@ -30,7 +30,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     skybox.material = skyboxMat;
 
     // ground mesh
-    const ground = MeshBuilder.CreateGround('groundMesh', {width: 20, height: 20, subdivisions: 2});
+    const ground = MeshBuilder.CreateGround('ground_Mesh', {width: 20, height: 20, subdivisions: 2});
     const groundMat = new StandardMaterial('brownMat", scene');
     groundMat.diffuseColor = new Color3(115/255, 97/255, 83/255);
     groundMat.specularColor = Color3.Black();
@@ -39,7 +39,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
 
 
     // sphere mesh
-    const sphere = MeshBuilder.CreateSphere('sphereMesh', { diameter: 1 }, scene);
+    const sphere = MeshBuilder.CreateSphere('sphere_Mesh', { diameter: 1 }, scene);
     const sphereMat = new StandardMaterial("orangeMat", scene);
     sphereMat.diffuseColor = new Color3(1, 0.35, 0);
     sphereMat.specularColor = Color3.Black();
@@ -48,7 +48,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     sphere.setAbsolutePosition(new Vector3(-2.26, -0.81, 4.47));
 
     // cube1
-    const cube1 = MeshBuilder.CreateBox('cubeMesh1', {size: 2, width: 2, height: 2}, scene);
+    const cube1 = MeshBuilder.CreateBox('cube1_Mesh', {size: 2, width: 2, height: 2}, scene);
     const cube1Mat = new StandardMaterial('blueMat', scene);
     cube1Mat.diffuseColor = new Color3(0, 0, 1);
     cube1Mat.backFaceCulling = false;
@@ -57,7 +57,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     cube1.rotation = new Vector3(0, 0, 0);  // no rotation
 
     // cube2
-    const cube2 = MeshBuilder.CreateBox('cubeMesh2', {size: 2, width: 2, height: 2}, scene);
+    const cube2 = MeshBuilder.CreateBox('cube2_Mesh', {size: 2, width: 2, height: 2}, scene);
     const cube2Mat = new StandardMaterial('yellowMat', scene);
     cube2Mat.diffuseColor = new Color3(1, 1, 0);
     cube2Mat.backFaceCulling = false;
@@ -66,7 +66,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
     cube2.rotation = new Vector3(deg2Rad(25.1), deg2Rad(3.93), deg2Rad(-12.7));
 
     // cube3
-    const cube3 = MeshBuilder.CreateBox('cubeMesh3', {size: 2, width: 2, height: 2}, scene);
+    const cube3 = MeshBuilder.CreateBox('cube3_Mesh', {size: 2, width: 2, height: 2}, scene);
     const cube3Mat = new StandardMaterial('greenMat', scene);
     cube3Mat.diffuseColor = new Color3(0, 1, 0);
     cube3Mat.backFaceCulling = false;
@@ -76,7 +76,7 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
 
 
     // cube4
-    const cube4 = MeshBuilder.CreateBox('cubeMesh3', {size: 2, width: 2, height: 2}, scene);
+    const cube4 = MeshBuilder.CreateBox('cube4_Mesh', {size: 2, width: 2, height: 2}, scene);
     const cube4Mat = new StandardMaterial('redMat', scene);
     cube4Mat.diffuseColor = new Color3(1, 0, 0);
     cube4Mat.backFaceCulling = false;

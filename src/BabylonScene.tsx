@@ -5,13 +5,14 @@ import { Color3, Color4 } from '@babylonjs/core';
 import '@babylonjs/loaders/OBJ/objFileLoader';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
+import { AdvancedDynamicTexture } from '@babylonjs/gui';
+
+import { deg2Rad } from './Utils';
+import UIElements from './components/UIElements';
 import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
-import UIElements from './components/UIElements';
-import { AdvancedDynamicTexture } from '@babylonjs/gui';
 import Instrumentation from './components/Instrumentation';
-import { deg2Rad } from './Utils';
-import Vector1 from './components/Vector1';
+import VectorExample1 from './components/VectorExample1';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -156,7 +157,7 @@ const BabylonScene: React.FC = () => {
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
         {guiTexture && < UIElements guiTexture={guiTexture}/>}
         {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}
-        {sceneRef.current && <Vector1 scene = {sceneRef.current} />}
+        {sceneRef.current && <VectorExample1 scene = {sceneRef.current} />}
       </>
   );
   
