@@ -1,36 +1,33 @@
-import { AdvancedDynamicTexture, Control, SelectionPanel, SliderGroup, RadioGroup } from '@babylonjs/gui';
+import { AdvancedDynamicTexture, SelectionPanel, RadioGroup, StackPanel, TextBlock, Slider } from '@babylonjs/gui';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
-import { deg2Rad, rad2Deg } from '../Utils';
-import { setIsPerspectiveView, setClipPlaneH, setClipPlaneV, setSliderFov } from '../redux/uiSlice';
+//import { rad2Deg } from '../Utils';
+import { setIsPerspectiveView, setClipPlaneH, setClipPlaneV, setClipPlaneF, setSliderFov } from '../redux/uiSlice';
 
 interface UIElementsProps {
     guiTexture: AdvancedDynamicTexture;
   }
 
-const fovDisplayVal = (value: number) => {
-    return parseFloat(rad2Deg(value).toFixed(2));
-}
+// const formattedDisplayVal = (value: number) => {
+//     return parseFloat(rad2Deg(value).toFixed(2));
+// }
+
 const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const sceneClippingH = useSelector((state: RootState) => state.ui.clipPlaneH);
     const sceneClippingV = useSelector((state: RootState) => state.ui.clipPlaneV);
+    const sceneClippingF = useSelector((state: RootState) => state.ui.clipPlaneF);
     const fieldOfView = useSelector((state: RootState) => state.ui.fieldOfView);
     const isPerspectiveView = useSelector((state: RootState) => state.ui.isPerspectiveView);
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
-    console.log(selectedMenuItem);
+    //console.log(selectedMenuItem);
 
     useEffect(() => {
         if(selectedMenuItem === "View") {
             // base panel
             const panel = new SelectionPanel("View Panel");
-            panel.width = 0.17;
-            panel.height = 0.47;
-            panel.paddingTopInPixels = 50;
-            panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
-            panel.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
         
             // Radio group for perspective and orthographic views
             const viewRadioGroup = new RadioGroup("View Mode");
@@ -42,37 +39,80 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
                 dispatch(setIsPerspectiveView(false));
             }, !isPerspectiveView);
         
-            // Slider to set the field of view angle - works only with perspective view
-            const fovSliderGroup = new SliderGroup("Field of View");
-            fovSliderGroup.addSlider("Perspective FOV", (value: number) => {
-                dispatch(setSliderFov(value));
-            }, "°", deg2Rad(10), deg2Rad(120), fieldOfView, fovDisplayVal);
-            
+            const mainStackPanel = new StackPanel();
+            mainStackPanel.width = "220px";
+            mainStackPanel.height = "300px";
+            mainStackPanel.isVertical = true;
+            mainStackPanel.top = "150px";
+            mainStackPanel.left = "10px";
+            mainStackPanel.verticalAlignment = StackPanel.VERTICAL_ALIGNMENT_TOP;
+            mainStackPanel.horizontalAlignment = StackPanel.HORIZONTAL_ALIGNMENT_LEFT;
 
-            // Slider to set horizontal and vertical clipping planes
-            const clipGroup = new SliderGroup("Clipping");
-            clipGroup.addSlider("Horizontal Clip", (value: number) => {
-                dispatch(setClipPlaneH(value));
-            }, "", -10, 10, sceneClippingH);
+            const createSliderGroup = (label: string, min: number, max: number, value: number, onChange: (value: number) => void) => {
+                const sliderGroup = new StackPanel();
+                sliderGroup.height = "60px";
+                sliderGroup.width = "100%";
+                sliderGroup.paddingBottom = "10px";
 
-            clipGroup.addSlider("Vertical Clip", (value: number) => {
-                dispatch(setClipPlaneV(value));
-            }, "", -10, 10, sceneClippingV);
+                const text = new TextBlock();
+                text.text = `${label}: ${value}`;
+                text.height = "30px";
+                text.width = "200px";
+                text.paddingBottom = "10px";
+                text.fontSize = "16";
 
-            panel.addGroup(viewRadioGroup);
-            panel.addGroup(fovSliderGroup);
-            panel.addGroup(clipGroup);
-        
-            guiTexture.addControl(panel);
-        
-            return () => {
-                guiTexture.removeControl(panel);
+                const slider = new Slider();
+                slider.minimum = min;
+                slider.maximum = max;
+                slider.value = value;
+                slider.height = "15px";
+                slider.width = "200px";
+                slider.color = "#fff";
+                slider.highlightColor = "white";
+                slider.thumbColor = "tomato";
+                slider.onValueChangedObservable.add((val) => {
+                    text.text = `${label}: ${val}`;
+                    onChange(val);
+                });
+
+                sliderGroup.addControl(text);
+                sliderGroup.addControl(slider);
+
+                return sliderGroup;
             };
 
+            const clipHGroup = createSliderGroup("Horizontal clipping", -10, 10, sceneClippingH, (value) => dispatch(setClipPlaneH(value)));
+            const clipVGroup = createSliderGroup("Vertical clipping", -10, 10, sceneClippingV, (value) => dispatch(setClipPlaneV(value)));
+            const clipFGroup = createSliderGroup("Front clipping", -10, 10, sceneClippingF, (value) => dispatch(setClipPlaneF(value)));
+            mainStackPanel.addControl(clipHGroup);
+            mainStackPanel.addControl(clipVGroup);
+            mainStackPanel.addControl(clipFGroup);
+
+            if(isPerspectiveView)
+            {
+                const fovSliderGroup = createSliderGroup("FOV (°)", 10, 120, fieldOfView, (value) => dispatch(setSliderFov(value)));
+                mainStackPanel.addControl(fovSliderGroup);
+            }
+
+
+            panel.addGroup(viewRadioGroup);
+            panel.addControl(mainStackPanel);
+            guiTexture.addControl(panel);
+
+            panel.width = "250px";
+            panel.height = "400px";
+            panel.top = "45px";
+            // panel.left = "-5px";
+            panel.verticalAlignment = StackPanel.VERTICAL_ALIGNMENT_TOP;
+            panel.horizontalAlignment = StackPanel.HORIZONTAL_ALIGNMENT_RIGHT;
+
+            return () => {
+                guiTexture.removeControl(panel);
+            }
 
         }
 
-    }, [dispatch, guiTexture, isPerspectiveView, fieldOfView, sceneClippingH, sceneClippingV]);
+    }, [dispatch, guiTexture, isPerspectiveView, fieldOfView, sceneClippingH]);
 
     return null;
 

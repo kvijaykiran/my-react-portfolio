@@ -10,6 +10,7 @@ import ViewingPrimitives from './components/ViewingPrimitives';
 import UIElements from './components/UIElements';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
 import Instrumentation from './components/Instrumentation';
+import { deg2Rad } from './Utils';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -25,6 +26,7 @@ const BabylonScene: React.FC = () => {
   const fieldOfView = useSelector((state: RootState) => state.ui.fieldOfView);
   const sceneClippingH = useSelector((state: RootState) => state.ui.clipPlaneH);
   const sceneClippingV = useSelector((state: RootState) => state.ui.clipPlaneV);
+  const sceneClippingF = useSelector((state: RootState) => state.ui.clipPlaneF);
 
 
   useEffect(() => {
@@ -133,7 +135,7 @@ const BabylonScene: React.FC = () => {
 
   useEffect(() => {
     if(camera) {
-      camera.fov = fieldOfView;
+      camera.fov = deg2Rad(fieldOfView);
     }
   }, [camera, fieldOfView]);
 
@@ -142,8 +144,9 @@ const BabylonScene: React.FC = () => {
       // Scene clipping
       scene.clipPlane = new Plane(1, 0, 0, sceneClippingH);
       scene.clipPlane2 = new Plane(0, 1, 0, sceneClippingV);
+      scene.clipPlane3 = new Plane(0, 0, -1, sceneClippingF);
     }
-  }, [scene, sceneClippingH, sceneClippingV]);
+  }, [scene, sceneClippingH, sceneClippingV, sceneClippingF]);
 
   return (
       <>
