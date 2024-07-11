@@ -1,19 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { deg2Rad } from '../Utils';
 
 interface SliderState {
     isPerspectiveView: boolean;
     fieldOfView: number;    // perspective view fov slider
     clipPlaneH: number;
     clipPlaneV: number;
+    clipPlaneF: number;
 
 }
 
 const initialState: SliderState = {
     isPerspectiveView: true,
-    fieldOfView: deg2Rad(45),
+    fieldOfView: 45,
     clipPlaneH: -10,
     clipPlaneV: -10,
+    clipPlaneF: -10,
 }
 
 const uiSlice = createSlice({
@@ -36,10 +37,13 @@ const uiSlice = createSlice({
             state.clipPlaneV = action.payload;
         },
 
+        setClipPlaneF: (state, action: PayloadAction<number>) => {
+            state.clipPlaneF = action.payload;
+        },
 
     },
 });
 
-export const {setIsPerspectiveView, setSliderFov, setClipPlaneH, setClipPlaneV} = uiSlice.actions;
+export const {setIsPerspectiveView, setSliderFov, setClipPlaneH, setClipPlaneV, setClipPlaneF} = uiSlice.actions;
 
 export default uiSlice.reducer;
