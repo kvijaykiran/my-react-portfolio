@@ -11,6 +11,7 @@ import UIElements from './components/UIElements';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
 import Instrumentation from './components/Instrumentation';
 import { deg2Rad } from './Utils';
+import Vector1 from './components/Vector1';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -155,6 +156,7 @@ const BabylonScene: React.FC = () => {
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
         {guiTexture && < UIElements guiTexture={guiTexture}/>}
         {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}
+        {sceneRef.current && <Vector1 scene = {sceneRef.current} />}
       </>
   );
   

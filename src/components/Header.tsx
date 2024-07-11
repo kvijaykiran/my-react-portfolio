@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import '../styles/_header.scss';
-//import { selectMenu } from '../redux/menuSlice';
+import { selectMenu } from '../redux/menuSlice';
 
 const Header: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState< { [key: string]: boolean}>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -40,15 +40,25 @@ const Header: React.FC = () => {
           Menu
           {dropdownOpen && (
             <div className="dropdown-content">
-              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>View
-                {/* {submenuOpen['a'] && (
+
+              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>Viewing
+              {submenuOpen['a'] && (
                   <div className='submenu-content'>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Perspective View'))}>Perspective view</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Orthographic View'))}>Orthographic view</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('View interpolation'))}>View interpolation</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('CameraProjectionMode'))}>Perspective/Ortho</div>
+                  </div>
+                )}
+              </div>
+
+
+              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>Vectors
+                {submenuOpen['a'] && (
+                  <div className='submenu-content'>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_1'))}>Example 1</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_2'))}>Example 2</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_3'))}>Example 3</div>
                   <div className="submenu-item" onClick={() => dispatch(selectMenu('Skewing'))}>Skewing</div>
                   </div>
-                )} */}
+                )}
               </div>
 
               <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('b')} onMouseLeave={() => toggleSubmenu('b')}>Geometries
