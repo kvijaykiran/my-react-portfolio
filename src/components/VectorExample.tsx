@@ -16,7 +16,7 @@ interface VectorExampleProps {
 
 
 const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
-    const dispatch = useDispatch<AppDispatch>();
+    // const dispatch = useDispatch<AppDispatch>();
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
 
     const CalcPerpVector = (a: Vector2) : Vector2 => {
