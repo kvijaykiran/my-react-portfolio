@@ -22,10 +22,10 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
     const fieldOfView = useSelector((state: RootState) => state.ui.fieldOfView);
     const isPerspectiveView = useSelector((state: RootState) => state.ui.isPerspectiveView);
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
-    //console.log(selectedMenuItem);
+    // console.log(selectedMenuItem);
 
     useEffect(() => {
-        if(selectedMenuItem === "View") {
+        if(selectedMenuItem === "CameraProjectionMode") {
             // base panel
             const panel = new SelectionPanel("View Panel");
         
@@ -112,7 +112,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
 
         }
 
-    }, [dispatch, guiTexture, isPerspectiveView, fieldOfView, sceneClippingH]);
+    }, [dispatch, selectedMenuItem, guiTexture, isPerspectiveView, fieldOfView, sceneClippingH]);
 
     return null;
 
