@@ -22,7 +22,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
     const fieldOfView = useSelector((state: RootState) => state.ui.fieldOfView);
     const isPerspectiveView = useSelector((state: RootState) => state.ui.isPerspectiveView);
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
-    console.log(selectedMenuItem);
+    // console.log(selectedMenuItem);
 
     useEffect(() => {
         if(selectedMenuItem === "CameraProjectionMode") {

@@ -12,7 +12,7 @@ import UIElements from './components/UIElements';
 import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
 import Instrumentation from './components/Instrumentation';
-import VectorExample1 from './components/VectorExample1';
+import VectorExample from './components/VectorExample';
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -157,7 +157,7 @@ const BabylonScene: React.FC = () => {
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
         {guiTexture && < UIElements guiTexture={guiTexture}/>}
         {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}
-        {sceneRef.current && <VectorExample1 scene = {sceneRef.current} />}
+        {sceneRef.current && <VectorExample scene = {sceneRef.current} />}
       </>
   );
   

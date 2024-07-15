@@ -56,7 +56,9 @@ const Header: React.FC = () => {
                   <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_1'))}>Example 1</div>
                   <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_2'))}>Example 2</div>
                   <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_3'))}>Example 3</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Skewing'))}>Skewing</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_4'))}>Example 4</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_5'))}>Example 5</div>
+                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_6'))}>Example 6</div>
                   </div>
                 )}
               </div>
