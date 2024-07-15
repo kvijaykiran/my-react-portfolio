@@ -1,10 +1,10 @@
 import { Color3, Vector2 } from '@babylonjs/core';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '../redux/store';
+import { RootState } from '../redux/store';
 import { Scene } from '@babylonjs/core';
 import { disposeMeshesByPattern, drawCircle, constructVector, drawDot } from '../Utils';
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
 
 // Created by Vijay Kalivarapu
 // This script demonstrates the use of vectors in 2D spaces
