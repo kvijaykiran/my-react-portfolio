@@ -5,7 +5,7 @@ import { selectMenu } from '../redux/menuSlice';
 
 const Header: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [submenuOpen, setSubmenuOpen] = useState< { [key: string]: boolean}>({});
+  const [submenuOpen, setSubmenuOpen] = useState<{ [key: string]: boolean }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   };
 
   const toggleSubmenu = (key: string) => {
-    setSubmenuOpen(prev => ({ ...prev, [key]: !prev[key]}));
+    setSubmenuOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -33,54 +33,53 @@ const Header: React.FC = () => {
 
   return (
     <header className="header">
-      <div className="logo">Logo</div>
-      <div className="dropdown-container" ref={dropdownRef}>
-
-        <div className="dropdown" onMouseEnter={() => toggleDropdown()} onMouseLeave={() => toggleDropdown()}>
-          Menu
-          {dropdownOpen && (
-            <div className="dropdown-content">
-
-              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>Viewing
-              {submenuOpen['a'] && (
-                  <div className='submenu-content'>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('CameraProjectionMode'))}>Perspective/Ortho</div>
-                  </div>
-                )}
+      <div className="logo-menu-container">
+        <div className="logo">Logo</div>
+        <div className="dropdown-container" ref={dropdownRef}>
+          <div className="dropdown" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
+            Menu
+            {dropdownOpen && (
+              <div className="dropdown-content">
+                <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>
+                  Viewing
+                  {submenuOpen['a'] && (
+                    <div className="submenu-content">
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('CameraProjectionMode'))}>Perspective/Ortho</div>
+                    </div>
+                  )}
+                </div>
+                <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('b')} onMouseLeave={() => toggleSubmenu('b')}>
+                  Vectors
+                  {submenuOpen['b'] && (
+                    <div className="submenu-content">
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_1'))}>Example 1</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_2'))}>Example 2</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_3'))}>Example 3</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_4'))}>Example 4</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_5'))}>Example 5</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_6'))}>Example 6</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_7'))}>Example 7</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_8'))}>Example 8</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_9'))}>Example 9</div>
+                      <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_10'))}>Example 10</div>
+                    </div>
+                  )}
+                </div>
+                <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('c')} onMouseLeave={() => toggleSubmenu('c')}>
+                  Geometries
+                  {submenuOpen['c'] && (
+                    <div className="submenu-content">
+                      <div className="submenu-item">Shell</div>
+                      <div className="submenu-item">Revolve extrusion</div>
+                      <div className="submenu-item">Assembly</div>
+                      <div className="submenu-item">Shaded</div>
+                    </div>
+                  )}
+                </div>
               </div>
-
-
-              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>Vectors
-                {submenuOpen['a'] && (
-                  <div className='submenu-content'>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_1'))}>Example 1</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_2'))}>Example 2</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_3'))}>Example 3</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_4'))}>Example 4</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_5'))}>Example 5</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_6'))}>Example 6</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_7'))}>Example 7</div>
-                  <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_8'))}>Example 8</div>
-                  </div>
-                )}
-              </div>
-
-              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('b')} onMouseLeave={() => toggleSubmenu('b')}>Geometries
-              {submenuOpen['b'] && (
-                  <div className='submenu-content'>
-                  <div className="submenu-item">Shell</div>
-                  <div className="submenu-item">Revolve extrusion</div>
-                  <div className="submenu-item">Assembly</div>
-                  <div className="submenu-item">Shaded</div>
-                  </div>
-                )}
-
-              </div>
-
-            </div>
-          )}
+            )}
+          </div>
         </div>
-
       </div>
     </header>
   );
