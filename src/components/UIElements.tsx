@@ -114,6 +114,13 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
 
     }, [dispatch, selectedMenuItem, guiTexture, isPerspectiveView, fieldOfView, sceneClippingH]);
 
+
+    useEffect(() => {
+        if(selectedMenuItem === "Vectors_Example_1") {
+            
+        }
+    }, [selectedMenuItem, guiTexture])
+
     return null;
 
 };
