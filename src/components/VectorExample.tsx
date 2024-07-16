@@ -42,13 +42,9 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
             disposeMeshesByPattern(scene, '_dot');
             
             mytVal += mydeltaT;
-            if(mytVal > 1.0) {
-              mytVal = 1.0;
+            if(mytVal > 1.0 || mytVal < 0)
               mydeltaT = -mydeltaT;
-            } else if(mytVal < 0) {
-              mytVal = 0;
-              mydeltaT = -mydeltaT;
-            }
+            
             drawCircle("circle_line", 2, 0, 0, new Color3(1, 0, 0), scene);
             constructVector("vec1", new Vector2(3 * Math.cos(2 * Math.PI * mytVal), 3 * Math.sin(2 * Math.PI * mytVal)), new Vector2(0, 0), new Color3(0, 1, 0), scene);
             constructVector("vec2", new Vector2(4, 0), new Vector2(0, 0), new Color3(1, 1, 1), scene);
@@ -71,13 +67,8 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
           disposeMeshesByPattern(scene, '_dot');
           
           mytVal += mydeltaT;
-          if(mytVal > 1.0) {
-            mytVal = 1.0;
+          if(mytVal > 1.0 || mytVal < 0)
             mydeltaT = -mydeltaT;
-          } else if(mytVal < 0) {
-            mytVal = 0;
-            mydeltaT = -mydeltaT;
-          }
           drawCircle("circle_line", 2, 0, 0, new Color3(1, 0, 0), scene);
           let c = new Vector2(3 * Math.cos(2 * Math.PI * mytVal), 3 * Math.sin(2 * Math.PI * mytVal));
           let v = new Vector2(3, 0);
@@ -106,13 +97,9 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
           disposeMeshesByPattern(scene, '_dot');
           
           mytVal += mydeltaT;
-          if(mytVal > 1.0) {
-            mytVal = 1.0;
+          if(mytVal > 1.0 || mytVal < 0)
             mydeltaT = -mydeltaT;
-          } else if(mytVal < 0) {
-            mytVal = 0;
-            mydeltaT = -mydeltaT;
-          }
+
           drawCircle("circle_line", 2, 0, 0, new Color3(1, 0, 0), scene);
 
           let c = new Vector2(3 * Math.cos(2 * Math.PI * mytVal), 3 * Math.sin(2 * Math.PI * mytVal));
@@ -149,13 +136,8 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
           disposeMeshesByPattern(scene, '_dot');
           
           mytVal += mydeltaT;
-          if(mytVal > 1.0) {
-            mytVal = 1.0;
+          if(mytVal > 1.0 || mytVal < 0)
             mydeltaT = -mydeltaT;
-          } else if(mytVal < 0) {
-            mytVal = 0;
-            mydeltaT = -mydeltaT;
-          }
 
           let p1 = new Vector2(-3 -2 * mytVal, 0);
           let p2 = new Vector2(1, 3 + 2.25 * (1 - mytVal));
@@ -187,13 +169,8 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
           disposeMeshesByPattern(scene, '_dot');
           
           mytVal += mydeltaT;
-          if(mytVal > 1.0) {
-            mytVal = 1.0;
+          if(mytVal > 1.0 || mytVal < 0)
             mydeltaT = -mydeltaT;
-          } else if(mytVal < 0) {
-            mytVal = 0;
-            mydeltaT = -mydeltaT;
-          }
 
           let p1 = new Vector2(-3 -2 * mytVal, 0);
           let p2 = new Vector2(1, 3 + 2.25 * (1 - mytVal));
@@ -230,13 +207,8 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
           disposeMeshesByPattern(scene, '_dot');
           
           mytVal += mydeltaT;
-          if(mytVal > 1.0) {
-            mytVal = 1.0;
+          if(mytVal > 1.0 || mytVal < 0)
             mydeltaT = -mydeltaT;
-          } else if(mytVal < 0) {
-            mytVal = 0;
-            mydeltaT = -mydeltaT;
-          }
 
           let p1 = new Vector2(-3 -2 * mytVal, 0);
           let p2 = new Vector2(1, 3 + 2.25 * (1 - mytVal));
@@ -258,8 +230,124 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
         });
       }
 
-    }, [selectedMenuItem])
+    }, [selectedMenuItem]);
 
+    useEffect(() => {
+      if(selectedMenuItem === "Vectors_example_7") {
+        // Draw an animating vector C moving between A and B
+        console.log("Draw an animating vector C moving between A and B");
+
+        let mytVal = 0;
+        let mydeltaT = 0.0005 * scene.deltaTime;
+
+        scene.onBeforeRenderObservable.add(() => {
+          disposeMeshesByPattern(scene, '_Mesh');
+          disposeMeshesByPattern(scene, '_line');
+          disposeMeshesByPattern(scene, '_dot');
+          
+          mytVal += mydeltaT;
+          if(mytVal > 1.0 || mytVal < 0)
+            mydeltaT = -mydeltaT;
+
+          let o = new Vector2(0, 0);
+          let a = new Vector2(-4.5, 4);
+          let b = new Vector2(4.5, 1.5);
+          let c1 = new Vector2();
+          let c2 = new Vector2();
+          let c = new Vector2();
+
+          // c = a * (1 - t) + b * t
+          c1 = a.multiplyByFloats((1 - mytVal), (1 - mytVal));
+          c2 = b.multiplyByFloats(mytVal, mytVal);
+          c = c1.add(c2);
+
+          constructVector("vec1", a, o, new Color3(1, 1, 1), scene);
+          constructVector("vec2", b, o, new Color3(1, 1, 1), scene);
+          constructVector("vec3", a.subtract(b), b, new Color3(1, 1, 1), scene);
+          constructVector("vec4", c, o, new Color3(0, 1, 0), scene);
+
+        });
+
+      }
+    }, [selectedMenuItem]);
+
+
+    useEffect(() => {
+      if(selectedMenuItem === "Vectors_example_8") {
+        // Draw a circle through points of a triangle
+        console.log("Draw a circle through points of a triangle");
+        let mytVal = 0;
+        let mydeltaT = 0.0005 * scene.deltaTime;
+
+        scene.onBeforeRenderObservable.add(() => {
+          disposeMeshesByPattern(scene, '_Mesh');
+          disposeMeshesByPattern(scene, '_line');
+          disposeMeshesByPattern(scene, '_dot');
+          
+          mytVal += mydeltaT;
+          if(mytVal > 1.0 || mytVal < 0)
+            mydeltaT = -mydeltaT;
+
+          let p1 = new Vector2(-3.0 -2.0 * mytVal, 0);
+          let p2 = new Vector2(1.0, 3.0 + 2.25 * (1.0 - mytVal));
+          let p3 = new Vector2(3.0, -2.0 - 3.0 * mytVal);
+
+          // Draw triangle
+          constructVector("vec1", p2.subtract(p1), p1, new Color3(0, 0, 1), scene);
+          constructVector("vec2", p3.subtract(p2), p2, new Color3(0, 1, 0), scene);
+          constructVector("vec3", p1.subtract(p3), p3, new Color3(1, 0, 0), scene);
+
+          // // Draw bisectors in green
+          let mp1 = p1.add(p2).multiplyByFloats(0.5, 0.5);
+          let biD1 = new Vector2();
+          biD1 = CalcPerpVector(p1.subtract(p2));
+          constructVector("vec4", biD1.multiplyByFloats(4, 4), mp1, new Color3(0, 1, 0), scene);
+
+          let mp2 = p2.add(p3).multiplyByFloats(0.5, 0.5);
+          let biD2 = new Vector2();
+          biD2 = CalcPerpVector(p2.subtract(p3));
+          constructVector("vec5", biD2.multiplyByFloats(4, 4), mp2, new Color3(0, 1, 0), scene);
+
+          let mp3 = p3.add(p1).multiplyByFloats(0.5, 0.5);
+          let biD3 = new Vector2();
+          biD3 = CalcPerpVector(p3.subtract(p1));
+          constructVector("vec6", biD3.multiplyByFloats(4, 4), mp3, new Color3(0, 1, 0), scene);
+
+          // Compute the center of the circle
+          let n0 = p3.subtract(p2);
+          let n1 = p1.subtract(p3);
+          let num = Vector2.Dot(n0, n1);
+
+          let d0 = p2.subtract(p1);
+          let d1 = p1.subtract(p3);
+          let cpvd = CalcPerpVector(d0);
+          let den = Vector2.Dot(cpvd, d1);
+
+          let A0 = p2.subtract(p1);
+          let A1 = CalcPerpVector(A0);
+          A1 = A1.scale(num/den);
+          let A2 = A0.add(A1);
+          A2 = A2.scale(0.5);
+
+          let ctr = p1.add(A2);
+          
+          drawDot("dot1_dot", ctr, 0.2, new Color3(0, 0, 0), scene);
+
+          // compute the radius and draw circle
+          let rad = (p1.subtract(ctr)).length();
+          drawCircle("c1_line", rad, ctr.x, ctr.y, new Color3(0, 0, 0), scene);
+
+        });
+      }
+
+
+    }, [selectedMenuItem]);
+
+    useEffect(() => {
+      if(selectedMenuItem === "Vectors_example_9") {
+        
+      }
+    }, [selectedMenuItem]);
 
 
     return (
