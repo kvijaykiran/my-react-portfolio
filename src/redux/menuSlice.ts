@@ -6,7 +6,7 @@ interface MenuState {
 }
 
 const initialState: MenuState = {
-  selectedMenu: 'blah',
+  selectedMenu: 'default',
 };
 
 const menuSlice = createSlice({
