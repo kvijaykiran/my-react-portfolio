@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* Align items to the left */
   align-items: center;
   padding: 10px 20px;
   background-color: white;
@@ -12,79 +12,76 @@
   z-index: 10; /* Ensure the header is above other elements */
   flex-wrap: wrap; /* Allow wrapping for mobile devices */
 
-  .logo-menu-container {
-    display: flex;
-    align-items: center;
+  .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-right: 120px; /* Add space between logo and dropdown */
+  }
 
-    .logo {
-      font-size: 2em;
-      font-weight: bold;
-      font-family: Arial, Helvetica, sans-serif;
-      margin-right: 50px;
-    }
+  .dropdown-container {
+    position: relative;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
 
-    .dropdown-container {
-      position: relative;
-      font-weight: bold;
-      font-family: Arial, Helvetica, sans-serif;
+    .dropdown {
+      position: relative; /* Position relative to the container */
+      min-width: 150px;
+      cursor: pointer;
 
-      .dropdown {
-        position: relative; /* Position relative to the container */
-        min-width: 150px;
-        cursor: pointer;
+      .dropdown-content {
+        display: none; /* Hide by default */
+        position: absolute;
+        left: 0;
+        top: 100%; /* Position below the dropdown */
+        background-color: #fff;
+        color: #333;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        // min-width: 150px; /* Ensure minimum width for dropdown */
+        // max-width: 150px;
+        width: 150px;
 
-        .dropdown-content {
-          display: none; /* Hide by default */
-          position: absolute;
-          left: 0;
-          top: 100%; /* Position below the dropdown */
-          background-color: #fff;
-          color: #333;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-          z-index: 1;
-          min-width: 150px; /* Ensure minimum width for dropdown */
+        .dropdown-item {
+          padding: 10px 20px;
+          cursor: pointer;
+          font-size: small;
+          font-weight: lighter;
+          font-family: Arial, Helvetica, sans-serif;
 
-          .dropdown-item {
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: small;
-            font-weight: lighter;
-            font-family: Arial, Helvetica, sans-serif;
+          &:hover {
+            background-color: #ddd;
+          }
 
-            &:hover {
-              background-color: #ddd;
-            }
+          .submenu-content {
+            display: none;
+            position: absolute;
+            left: 100%; /* Position to the right of the item */
+            top: 0;
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            min-width: 150px;
+            box-sizing: border-box;
 
-            .submenu-content {
-              display: none;
-              position: absolute;
-              left: 100%; /* Position to the right of the item */
-              top: 0;
-              background-color: #fff;
-              box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-              z-index: 1;
-              min-width: 150px;
-              box-sizing: border-box;
+            .submenu-item {
+              padding: 10px 20px;
+              cursor: pointer;
 
-              .submenu-item {
-                padding: 10px 20px;
-                cursor: pointer;
-
-                &:hover {
-                  background-color: #ddd;
-                }
+              &:hover {
+                background-color: #ddd;
               }
             }
+          }
 
-            &:hover .submenu-content {
-              display: block;
-            }
+          &:hover .submenu-content {
+            display: block;
           }
         }
+      }
 
-        &:hover .dropdown-content {
-          display: block; /* Show on hover */
-        }
+      &:hover .dropdown-content {
+        display: block; /* Show on hover */
       }
     }
   }
@@ -96,21 +93,19 @@
     flex-direction: column;
     align-items: flex-start;
 
-    .logo-menu-container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
+    .logo {
+      margin-bottom: 10px; /* Add space between logo and dropdown */
+    }
 
-      .dropdown-container {
+    .dropdown-container {
+      width: 100%;
+
+      .dropdown {
         width: 100%;
 
-        .dropdown {
-          width: 100%;
-
-          .dropdown-content {
-            left: 0;
-            right: 0;
-          }
+        .dropdown-content {
+          left: 0;
+          right: 0;
         }
       }
     }
