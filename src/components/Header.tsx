@@ -35,20 +35,26 @@ const Header: React.FC = () => {
     <header className="header">
       <div className="logo">Logo</div>
       <div className="dropdown-container" ref={dropdownRef}>
+
+        <div className="dropdown" onClick={() => dispatch(selectMenu('home_base'))}>Homebase</div>
+
+        <div className="separator">|</div>
+
         <div className="dropdown" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
           Menu
           {dropdownOpen && (
             <div className="dropdown-content">
-              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')}>
-                Viewing
-                {submenuOpen['a'] && (
+              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('a')} onMouseLeave={() => toggleSubmenu('a')} onClick={() => dispatch(selectMenu('CameraProjectionMode'))}>
+                View Options
+                {/* {submenuOpen['a'] && (
                   <div className="submenu-content">
                     <div className="submenu-item" onClick={() => dispatch(selectMenu('CameraProjectionMode'))}>Perspective/Ortho</div>
                   </div>
-                )}
+                )} */}
               </div>
+
               <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('b')} onMouseLeave={() => toggleSubmenu('b')}>
-                Vectors
+                2D Vectors
                 {submenuOpen['b'] && (
                   <div className="submenu-content">
                     <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_1'))}>Example 1</div>
@@ -64,17 +70,30 @@ const Header: React.FC = () => {
                   </div>
                 )}
               </div>
+
               <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('c')} onMouseLeave={() => toggleSubmenu('c')}>
-                Geometries
+                3D Geometries
                 {submenuOpen['c'] && (
                   <div className="submenu-content">
                     <div className="submenu-item">Shell</div>
                     <div className="submenu-item">Revolve extrusion</div>
                     <div className="submenu-item">Assembly</div>
-                    <div className="submenu-item">Shaded</div>
                   </div>
                 )}
               </div>
+
+              <div className="dropdown-item" onMouseEnter={() => toggleSubmenu('d')} onMouseLeave={() => toggleSubmenu('d')}>
+                GPU Shaders
+                {submenuOpen['d'] && (
+                  <div className="submenu-content">
+                    <div className="submenu-item">Simple</div>
+                    <div className="submenu-item">Rim lighting</div>
+                    <div className="submenu-item">Light model</div>
+                  </div>
+                )}
+              </div>
+
+
             </div>
           )}
         </div>

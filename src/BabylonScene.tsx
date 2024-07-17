@@ -9,7 +9,7 @@ import { AdvancedDynamicTexture } from '@babylonjs/gui';
 
 import { deg2Rad } from './Utils';
 import UIElements from './components/UIElements';
-import GroundPlane from './components/GroundPlane';
+// import GroundPlane from './components/GroundPlane';
 import ViewingPrimitives from './components/ViewingPrimitives';
 import Instrumentation from './components/Instrumentation';
 import VectorExample from './components/VectorExample';
@@ -153,7 +153,7 @@ const BabylonScene: React.FC = () => {
   return (
       <>
         <canvas ref={canvasRef} style={{ width: '100%', height: '100vh'}} />
-        {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>}
+        {/* {sceneRef.current && <GroundPlane scene = {sceneRef.current}/>} */}
         {sceneRef.current && < ViewingPrimitives scene={sceneRef.current}/>}
         {guiTexture && < UIElements guiTexture={guiTexture}/>}
         {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
 //import { rad2Deg } from '../Utils';
-import { setIsPerspectiveView, setClipPlaneH, setClipPlaneV, setClipPlaneF, setSliderFov } from '../redux/uiSlice';
+import { setIsPerspectiveView, setClipPlaneH, setClipPlaneV, setClipPlaneF, setSliderFov, setIsContentInfoVisible } from '../redux/uiSlice';
 
 interface UIElementsProps {
     guiTexture: AdvancedDynamicTexture;
@@ -21,6 +21,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
     const sceneClippingF = useSelector((state: RootState) => state.ui.clipPlaneF);
     const fieldOfView = useSelector((state: RootState) => state.ui.fieldOfView);
     const isPerspectiveView = useSelector((state: RootState) => state.ui.isPerspectiveView);
+    const isContentInfoVisible = useSelector((state: RootState) => state.ui.isContentInfoVisible);
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
     // console.log(selectedMenuItem);
 
@@ -30,7 +31,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
             const panel = new SelectionPanel("View Panel");
         
             // Radio group for perspective and orthographic views
-            const viewRadioGroup = new RadioGroup("View Mode");
+            const viewRadioGroup = new RadioGroup("View Mode (functional)");
             viewRadioGroup.addRadio("Perspective View", () => {
                 dispatch(setIsPerspectiveView(true));
             }, isPerspectiveView);
@@ -38,19 +39,29 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
             viewRadioGroup.addRadio("Orthographic View", () => {
                 dispatch(setIsPerspectiveView(false));
             }, !isPerspectiveView);
-        
+
+            const infoVisibleRadioGroup = new RadioGroup("Info (not functional)");
+            infoVisibleRadioGroup.addRadio("On", () => {
+                dispatch(setIsContentInfoVisible(true));
+            }, isContentInfoVisible);
+
+            infoVisibleRadioGroup.addRadio("Off", () => {
+                dispatch(setIsContentInfoVisible(false));
+            }, !isContentInfoVisible);
+
+
             const mainStackPanel = new StackPanel();
             mainStackPanel.width = "220px";
-            mainStackPanel.height = "300px";
+            mainStackPanel.height = "400px";
             mainStackPanel.isVertical = true;
-            mainStackPanel.top = "150px";
+            mainStackPanel.top = "220px";
             mainStackPanel.left = "10px";
             mainStackPanel.verticalAlignment = StackPanel.VERTICAL_ALIGNMENT_TOP;
             mainStackPanel.horizontalAlignment = StackPanel.HORIZONTAL_ALIGNMENT_LEFT;
 
             const createSliderGroup = (label: string, min: number, max: number, value: number, onChange: (value: number) => void) => {
                 const sliderGroup = new StackPanel();
-                sliderGroup.height = "60px";
+                sliderGroup.height = "70px";
                 sliderGroup.width = "100%";
                 sliderGroup.paddingBottom = "10px";
 
@@ -95,12 +106,13 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
             }
 
 
+            panel.addGroup(infoVisibleRadioGroup);
             panel.addGroup(viewRadioGroup);
             panel.addControl(mainStackPanel);
             guiTexture.addControl(panel);
 
             panel.width = "250px";
-            panel.height = "400px";
+            panel.height = "500px";
             panel.top = "45px";
             // panel.left = "-5px";
             panel.verticalAlignment = StackPanel.VERTICAL_ALIGNMENT_TOP;
@@ -112,7 +124,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
 
         }
 
-    }, [dispatch, selectedMenuItem, guiTexture, isPerspectiveView, fieldOfView, sceneClippingH]);
+    }, [dispatch, selectedMenuItem, guiTexture, isPerspectiveView, isContentInfoVisible, fieldOfView, sceneClippingH]);
 
 
     useEffect(() => {
