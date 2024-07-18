@@ -91,7 +91,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .header {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
 
     .logo {
@@ -100,7 +100,7 @@
 
     .dropdown-container {
       width: 100%;
-      flex-direction: column;
+      flex-direction: row;
 
       .dropdown {
         width: 100%;

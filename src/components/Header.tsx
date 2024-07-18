@@ -36,7 +36,7 @@ const Header: React.FC = () => {
       <div className="logo">Logo</div>
       <div className="dropdown-container" ref={dropdownRef}>
 
-        <div className="dropdown" onClick={() => dispatch(selectMenu('home_base'))}>Homebase</div>
+        <div className="dropdown" onClick={() => dispatch(selectMenu('home_base'))}>Home</div>
 
         <div className="separator">|</div>
 
