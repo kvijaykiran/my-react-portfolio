@@ -9,13 +9,13 @@ import { disposeMeshesByPattern, drawCircle, constructVector, drawDot } from '..
 // Created by Vijay Kalivarapu
 // This script demonstrates the use of vectors in 2D spaces
 
-interface VectorExampleProps {
+interface VectorsExamplesProps {
     scene: Scene;
   }
   
 
 
-const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
+const VectorsExamples: React.FC<VectorsExamplesProps> = ({scene}) => {
     // const dispatch = useDispatch<AppDispatch>();
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
 
@@ -360,6 +360,6 @@ const VectorExample: React.FC<VectorExampleProps> = ({scene}) => {
     
   };
   
-  export default VectorExample;
+  export default VectorsExamples;
 
   

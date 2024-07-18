@@ -65,8 +65,8 @@ const Header: React.FC = () => {
                     <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_6'))}>Example 6</div>
                     <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_7'))}>Example 7</div>
                     <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_8'))}>Example 8</div>
-                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_9'))}>Example 9</div>
-                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_10'))}>Example 10</div>
+                    {/* <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_9'))}>Example 9</div>
+                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Vectors_example_10'))}>Example 10</div> */}
                   </div>
                 )}
               </div>
@@ -86,7 +86,8 @@ const Header: React.FC = () => {
                 GPU Shaders
                 {submenuOpen['d'] && (
                   <div className="submenu-content">
-                    <div className="submenu-item">Simple</div>
+                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Shaders_example_2'))}>Wavy Effect</div>
+                    <div className="submenu-item">Material effect</div>
                     <div className="submenu-item">Rim lighting</div>
                     <div className="submenu-item">Light model</div>
                   </div>

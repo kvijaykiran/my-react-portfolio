@@ -58,13 +58,14 @@
         .submenu-content {
           display: none;
           position: absolute;
-          left: 100%; /* Position to the right of the item */
+          left: -100%; /* Position to the left of the item */
           top: 0;
           background-color: #fff;
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
           z-index: 1;
           min-width: 150px;
           box-sizing: border-box;
+          transform: translateY(0); /* Align submenu to the hovered item */
 
           .submenu-item {
             padding: 10px 20px;
