@@ -65,6 +65,7 @@
           z-index: 1;
           min-width: 150px;
           box-sizing: border-box;
+          transform: translateY(0); /* Align submenu to the hovered item */
 
           .submenu-item {
             padding: 10px 20px;
