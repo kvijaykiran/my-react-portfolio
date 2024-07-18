@@ -1,41 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Engine, EngineInstrumentation, Scene, SceneInstrumentation } from '@babylonjs/core';
 import { StackPanel, TextBlock, Control } from '@babylonjs/gui';
 import { AdvancedDynamicTexture } from '@babylonjs/gui';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
-// https://playground.babylonjs.com/#YBDK7C, Thank you!
+// Inspired from: https://playground.babylonjs.com/#YBDK7C - Thank you!
 
 interface InstrumentationProps {
     scene: Scene;
     engine: Engine;
-  }
-  
+}
 
-const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
-    // const isInfoVisible = useSelector((state: RootState) => state.ui.isContentInfoVisible);
+const Instrumentation: React.FC<InstrumentationProps> = ({ scene, engine }) => {
+    const isInfoVisible = useSelector((state: RootState) => state.ui.isContentInfoVisible);
+    const guiTextureRef = useRef<AdvancedDynamicTexture | null>(null);
+    const sceneInstrumentationRef = useRef<SceneInstrumentation | null>(null);
+    const engineInstrumentationRef = useRef<EngineInstrumentation | null>(null);
 
     useEffect(() => {
-        // if(isInfoVisible) {
+        if (isInfoVisible) {
+            // Create new instances only if they do not already exist
+            if (!guiTextureRef.current) {
+                guiTextureRef.current = AdvancedDynamicTexture.CreateFullscreenUI("InstrumentationUI");
+            }
 
-            // dispose existing elements first
+            if (!sceneInstrumentationRef.current) {
+                sceneInstrumentationRef.current = new SceneInstrumentation(scene);
+                sceneInstrumentationRef.current.captureActiveMeshesEvaluationTime = true;
+                sceneInstrumentationRef.current.captureFrameTime = true;
+                sceneInstrumentationRef.current.captureRenderTime = true;
+                sceneInstrumentationRef.current.captureCameraRenderTime = true;
+                sceneInstrumentationRef.current.captureInterFrameTime = true;
+            }
 
-            const guiTexture = AdvancedDynamicTexture.CreateFullscreenUI("InstrumentationUI");
+            if (!engineInstrumentationRef.current) {
+                engineInstrumentationRef.current = new EngineInstrumentation(engine);
+                engineInstrumentationRef.current.captureGPUFrameTime = true;
+                engineInstrumentationRef.current.captureShaderCompilationTime = true;
+            }
 
-            let sceneInstrumentation = new SceneInstrumentation(scene);
-            sceneInstrumentation.captureActiveMeshesEvaluationTime = true;
-            sceneInstrumentation.captureFrameTime = true;
-            // sceneInstrumentation.captureParticlesRenderTime = true;
-            sceneInstrumentation.captureRenderTime = true;
-            sceneInstrumentation.captureCameraRenderTime = true;
-            sceneInstrumentation.captureInterFrameTime = true;
-    
-            let engineInstrumentation = new EngineInstrumentation(engine);
-            engineInstrumentation.captureGPUFrameTime = true;
-            engineInstrumentation.captureShaderCompilationTime = true;
-    
-            const panelAdd = addGuiPanel(guiTexture, 0, 0);
+            const panelAdd = addGuiPanel(guiTextureRef.current, 0, 0);
             const meshesLength = addInstrumentationTextBlock(panelAdd, 'Meshes: ');
             const activeMeshesLength = addInstrumentationTextBlock(panelAdd, 'Active Meshes: ');
             const activeVertices = addInstrumentationTextBlock(panelAdd, 'Active Vertice Count: ');
@@ -59,8 +64,8 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
             const heapSize = addInstrumentationTextBlock(panelAdd, 'Heap Used: ');
             const heapTotal = addInstrumentationTextBlock(panelAdd, 'Heap Total: ');
             const heapLimit = addInstrumentationTextBlock(panelAdd, 'Heap Limit: ');
-            const deltaTimeValue = addInstrumentationTextBlock(panelAdd, 'Delta Time: ');        
-    
+            const deltaTimeValue = addInstrumentationTextBlock(panelAdd, 'Delta Time: ');
+
             scene.registerAfterRender(() => {
                 meshesLength.text = "Meshes: " + scene.meshes.length;
                 activeMeshesLength.text = "Active Meshes: " + scene.getActiveMeshes().length;
@@ -69,39 +74,49 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
                 materialsLength.text = "Materials: " + scene.materials.length;
                 texturesLength.text = "Textures: " + scene.textures.length;
                 animationLength.text = "Animations: " + scene.animatables.length;
-                drawCalls.text = "Draw Calls: " + sceneInstrumentation.drawCallsCounter.current;
+                drawCalls.text = "Draw Calls: " + sceneInstrumentationRef.current?.drawCallsCounter.current;
                 totalLights.text = "Lights: " + scene.lights.length;
-                frameTimeMax.text = "Scene Frame Time: " + sceneInstrumentation.frameTimeCounter.lastSecAverage.toFixed(2);
-                evalTimeMax.text = "Active Meshes Eval Time: " + sceneInstrumentation.activeMeshesEvaluationTimeCounter.lastSecAverage.toFixed(2);
-                particlesFrameTime.text = "Particles Render Time: " + sceneInstrumentation.particlesRenderTimeCounter.current.toFixed(2);
-                interFrameTime.text = "Inter Frame Time: " + sceneInstrumentation.interFrameTimeCounter.lastSecAverage.toFixed();
-                gpuFrameTime.text = "GPU Frame Time: " + (engineInstrumentation.gpuFrameTimeCounter.average * 0.000001).toFixed(2) + " ms";
-                shaderCompTime.text = "Shader Comp Time: " + engineInstrumentation.shaderCompilationTimeCounter.current.toFixed(2) + " ms";
-                shaderTotal.text = "Total Shaders: " + engineInstrumentation.shaderCompilationTimeCounter.count;
-                sceneRenderTime.text = "Scene Render Time: " + sceneInstrumentation.renderTimeCounter.current.toFixed();
-                cameraRenderTime.text = "Camera Render Time: " + sceneInstrumentation.cameraRenderTimeCounter.current.toFixed();
-                targetsRenderTime.text = "Targets Render Time: " + sceneInstrumentation.renderTargetsRenderTimeCounter.current.toFixed();
+                frameTimeMax.text = "Scene Frame Time: " + sceneInstrumentationRef.current?.frameTimeCounter.lastSecAverage.toFixed(2);
+                evalTimeMax.text = "Active Meshes Eval Time: " + sceneInstrumentationRef.current?.activeMeshesEvaluationTimeCounter.lastSecAverage.toFixed(2);
+                particlesFrameTime.text = "Particles Render Time: " + sceneInstrumentationRef.current?.particlesRenderTimeCounter.current.toFixed(2);
+                interFrameTime.text = "Inter Frame Time: " + sceneInstrumentationRef.current?.interFrameTimeCounter.lastSecAverage.toFixed();
+                gpuFrameTime.text = "GPU Frame Time: " + (engineInstrumentationRef.current?.gpuFrameTimeCounter.average * 0.000001).toFixed(2) + " ms";
+                shaderCompTime.text = "Shader Comp Time: " + engineInstrumentationRef.current?.shaderCompilationTimeCounter.current.toFixed(2) + " ms";
+                shaderTotal.text = "Total Shaders: " + engineInstrumentationRef.current?.shaderCompilationTimeCounter.count;
+                sceneRenderTime.text = "Scene Render Time: " + sceneInstrumentationRef.current?.renderTimeCounter.current.toFixed();
+                cameraRenderTime.text = "Camera Render Time: " + sceneInstrumentationRef.current?.cameraRenderTimeCounter.current.toFixed();
+                targetsRenderTime.text = "Targets Render Time: " + sceneInstrumentationRef.current?.renderTargetsRenderTimeCounter.current.toFixed();
                 fpsValue.text = "FPS: " + engine.getFps().toFixed() + " fps";
-                if(window.performance && (window.performance as any).memory) {
+                if (window.performance && (window.performance as any).memory) {
                     const memory = (window.performance as any).memory;
-                    heapSize.text = "Heap used: " + ((memory.usedJSHeapSize / 1024)/1024).toFixed(2) + " MB";
-                    heapTotal.text = "Heap total: " + ((memory.totalJSHeapSize / 1024)/1024).toFixed(2) + " MB";
-                    heapLimit.text = "Heap limit: " + ((memory.jsHeapSizeLimit / 1024)/1024).toFixed(2) + " MB";
+                    heapSize.text = "Heap used: " + ((memory.usedJSHeapSize / 1024) / 1024).toFixed(2) + " MB";
+                    heapTotal.text = "Heap total: " + ((memory.totalJSHeapSize / 1024) / 1024).toFixed(2) + " MB";
+                    heapLimit.text = "Heap limit: " + ((memory.jsHeapSizeLimit / 1024) / 1024).toFixed(2) + " MB";
                 }
-                if(scene.deltaTime){
+                if (scene.deltaTime) {
                     deltaTimeValue.text = "Delta Time: " + scene.deltaTime.toFixed(2);
                 }
-            })
-            guiTexture.getChildren().forEach(c =>{c.isVisible = true;})
-        // }
+            });
+            guiTextureRef.current.getChildren().forEach(c => { c.isVisible = true; });
 
+        } else {
+            // Dispose existing instances if they exist
+            if (guiTextureRef.current) {
+                guiTextureRef.current.dispose();
+                guiTextureRef.current = null;
+            }
 
-    return () => {
+            if (sceneInstrumentationRef.current) {
+                sceneInstrumentationRef.current.dispose();
+                sceneInstrumentationRef.current = null;
+            }
 
-    };
-
-    },[scene, /*isInfoVisible*/]);
-
+            if (engineInstrumentationRef.current) {
+                engineInstrumentationRef.current.dispose();
+                engineInstrumentationRef.current = null;
+            }
+        }
+    }, [scene, engine, isInfoVisible]);
 
     const addGuiPanel = (guiTexture: AdvancedDynamicTexture, hAlign: number, vAlign: number) => {
         const panel = new StackPanel();
@@ -128,8 +143,6 @@ const Instrumentation: React.FC<InstrumentationProps> = ({scene, engine}) => {
         panel.addControl(textBlock);
         return textBlock;
     }
-
-
 
     return null;
 }

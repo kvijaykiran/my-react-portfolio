@@ -31,7 +31,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
             const panel = new SelectionPanel("View Panel");
         
             // Radio group for perspective and orthographic views
-            const viewRadioGroup = new RadioGroup("View Mode (functional)");
+            const viewRadioGroup = new RadioGroup("View Mode");
             viewRadioGroup.addRadio("Perspective View", () => {
                 dispatch(setIsPerspectiveView(true));
             }, isPerspectiveView);
@@ -40,7 +40,7 @@ const UIElements: React.FC<UIElementsProps> = ({guiTexture}) => {
                 dispatch(setIsPerspectiveView(false));
             }, !isPerspectiveView);
 
-            const infoVisibleRadioGroup = new RadioGroup("Info (not functional)");
+            const infoVisibleRadioGroup = new RadioGroup("Content Info");
             infoVisibleRadioGroup.addRadio("On", () => {
                 dispatch(setIsContentInfoVisible(true));
             }, isContentInfoVisible);
