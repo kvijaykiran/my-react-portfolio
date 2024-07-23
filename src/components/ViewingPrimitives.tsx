@@ -8,30 +8,28 @@ import '../Utils';
 import { deg2Rad } from '../Utils';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { disposeMeshesByPattern } from '../Utils';
+import { disposeMeshesByPattern, disposeLightsByPattern } from '../Utils';
+import { HemisphericLight, DirectionalLight } from '@babylonjs/core';
 
 interface ViewingPrimitivesProps {
   scene: Scene;
 }
 
-const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
-  const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
+export const TurnLightsOn = (scene: Scene) => {
+    // Set lighting parameters
+    const hlight = new HemisphericLight('hemispheric_light', new Vector3(1, 1, 0), scene);
+    hlight.diffuse = new Color3(0.75, 0.75, 0.75);
+	  //hlight.specular = new Color3(0, 1, 0);
+	  //hlight.groundColor = new Color3(0, 1, 0);
 
-  useEffect(() => {
-    
-    if(selectedMenuItem === "home_base" || selectedMenuItem == "default") {
-      console.log("Came to homebase");
+    // set directional light
+    const dlight = new DirectionalLight('directional_light', new Vector3(50, -30, 0), scene);
+    dlight.diffuse = new Color3(0.75, 0.75, 0.75);
+    dlight.position = new Vector3(0, 3, 0);
 
-      scene.onBeforeRenderObservable.add(() => {
-      // while(scene.meshes.length) {
-      //     const mesh = scene.meshes[0];
-      //     //console.log(mesh.name)
-      //     mesh.dispose();
-      //     }
-      disposeMeshesByPattern(scene, '_Mesh');
-      disposeMeshesByPattern(scene, '_line');
-      disposeMeshesByPattern(scene, '_dot');
+}
 
+export const CreatePrimitives = (scene: Scene) => {
       // Skybox
       const skybox = MeshBuilder.CreateBox('Skybox_Mesh', {size: 1000} , scene);
       const skyboxMat = new SkyMaterial('SkyMaterial', scene);
@@ -94,20 +92,36 @@ const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
       cube4.material = cube4Mat;
       cube4.setAbsolutePosition(new Vector3(1.35, 2.25, 1.21));
       cube4.rotation = new Vector3(deg2Rad(52.86), deg2Rad(-17.32), deg2Rad(-12.7));
-      });
 
-      // return () => {
-      //   skybox.dispose();
-      //   ground.dispose();
-      //   sphere.dispose();
-      //   cube1.dispose();
-      //   cube2.dispose();
-      //   cube3.dispose();
+      return [skybox, ground, cube1, cube2, cube3, cube4];
+  
+}
+
+
+const ViewingPrimitives: React.FC<ViewingPrimitivesProps> = ({ scene }) => {
+  const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
+
+  useEffect(() => {
+    
+    if(selectedMenuItem === "home_base" || selectedMenuItem == "default") {
+      console.log("Came to homebase");
+
+      scene.onBeforeRenderObservable.add(() => {
+      disposeMeshesByPattern(scene, '_Mesh');
+      disposeMeshesByPattern(scene, '_line');
+      disposeMeshesByPattern(scene, '_dot');
+      CreatePrimitives(scene);
+    });
+    disposeLightsByPattern(scene, "_light");
+    TurnLightsOn(scene);
+
+      return () => {
       //   cube4.dispose();
-      // };
+      };
     }
 
   }, [scene, selectedMenuItem]);
+
 
     return (
       <>

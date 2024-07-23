@@ -84,6 +84,14 @@ export const disposeMeshesByPattern = (scene: Scene, pattern: string) : void => 
 
 }
 
+export const disposeLightsByPattern = (scene: Scene, lightname: string) : void => {
+  const lightsToDispose = scene.lights.filter(light => light.name.endsWith(lightname));
+  // console.log("disposing light: ", lightname);
+  // lightsToDispose.forEach(light => scene.removeLight(light));
+  lightsToDispose.forEach(light => light.dispose());
+}
+
+
 export const drawCircle = (name: string, radius: number, centrX: number, centrY: number, color: Color3, scene: Scene) => {
   //  const circle = MeshBuilder.CreateLines('circle', {})
   let myPoints = [];

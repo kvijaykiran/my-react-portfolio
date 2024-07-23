@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Engine, Scene, Camera, ArcRotateCamera, HemisphericLight, DirectionalLight, Plane } from '@babylonjs/core';
+import { Engine, Scene, Camera, ArcRotateCamera, Plane } from '@babylonjs/core';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { Color3, Color4 } from '@babylonjs/core';
 import '@babylonjs/loaders/OBJ/objFileLoader';
@@ -13,7 +13,9 @@ import UIElements from './components/UIElements';
 import ViewingPrimitives from './components/ViewingPrimitives';
 import Instrumentation from './components/Instrumentation';
 import VectorsExamples from './components/VectorsExamples';
-import ShadersExamples from './components/ShadersExamples';
+import ShadersExample1 from './components/ShadersExample1'; // wavy effect
+import ShadersExample2 from './components/ShadersExample2'; // Lambert light
+
 
 const BabylonScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,17 +65,6 @@ const BabylonScene: React.FC = () => {
 
     const newGuiTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
     setGuiTexture(newGuiTexture);
-
-    // Set lighting parameters
-    const hlight = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
-    hlight.diffuse = new Color3(0.75, 0.75, 0.75);
-	  //hlight.specular = new Color3(0, 1, 0);
-	  //hlight.groundColor = new Color3(0, 1, 0);
-
-    // set directional light
-    const dlight = new DirectionalLight('dlight1', new Vector3(50, -30, 0), scene);
-    dlight.diffuse = new Color3(0.75, 0.75, 0.75);
-    dlight.position = new Vector3(0, 3, 0);
 
     /*
     // Load the OBJ file - this section will need to be moved to somewhere else
@@ -159,7 +150,8 @@ const BabylonScene: React.FC = () => {
         {guiTexture && < UIElements guiTexture={guiTexture}/>}
         {sceneRef.current && < Instrumentation scene = {sceneRef.current} engine = {engineRef.current}/>}
         {sceneRef.current && <VectorsExamples scene = {sceneRef.current} />}
-        {sceneRef.current && engineRef.current && <ShadersExamples scene = {sceneRef.current} engine = {engineRef.current} />}
+        {sceneRef.current && engineRef.current && <ShadersExample1 scene = {sceneRef.current} engine = {engineRef.current} />}
+        {sceneRef.current && engineRef.current && <ShadersExample2 scene = {sceneRef.current} engine = {engineRef.current} />}
       </>
   );
   

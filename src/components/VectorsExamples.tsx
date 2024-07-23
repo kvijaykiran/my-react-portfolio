@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Scene } from '@babylonjs/core';
-import { disposeMeshesByPattern, drawCircle, constructVector, drawDot } from '../Utils';
+import { disposeMeshesByPattern, drawCircle, constructVector, drawDot, disposeLightsByPattern } from '../Utils';
 //import { useDispatch } from 'react-redux';
 
 // Created by Vijay Kalivarapu
@@ -40,7 +40,8 @@ const VectorsExamples: React.FC<VectorsExamplesProps> = ({scene}) => {
             disposeMeshesByPattern(scene, '_Mesh');
             disposeMeshesByPattern(scene, '_line');
             disposeMeshesByPattern(scene, '_dot');
-            
+            disposeLightsByPattern(scene, '_light');
+
             mytVal += mydeltaT;
             if(mytVal > 1.0 || mytVal < 0)
               mydeltaT = -mydeltaT;

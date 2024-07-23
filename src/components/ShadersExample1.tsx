@@ -4,21 +4,20 @@ import { RootState } from '../redux/store';
 import { Effect, Scene, Engine, PostProcess } from '@babylonjs/core';
 import '@babylonjs/loaders';
 
+// Shaders example 1: Wavy effect
 
-interface ShadersExamplesProps {
+interface ShadersExample1Props {
     scene: Scene;
     engine: Engine;
   }
   
-
-
-const ShadersExamples: React.FC<ShadersExamplesProps> = ({scene, engine}) => {
+const ShadersExample1: React.FC<ShadersExample1Props> = ({scene, engine}) => {
 
     const selectedMenuItem = useSelector((state: RootState) => state.menu.selectedMenu);
     const [postProcess, setPostProcess] = useState<PostProcess | null>(null);
 
     useEffect(() => {
-        if(selectedMenuItem === 'Shaders_example_2') {
+        if(selectedMenuItem === 'Shaders_example_1') {
 
             // Define the shader material
             const vertexShader = `
@@ -88,4 +87,4 @@ const ShadersExamples: React.FC<ShadersExamplesProps> = ({scene, engine}) => {
     );
     
   };
-export default ShadersExamples;
+export default ShadersExample1;
