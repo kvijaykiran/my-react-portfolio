@@ -86,10 +86,10 @@ const Header: React.FC = () => {
                 GPU Shaders
                 {submenuOpen['d'] && (
                   <div className="submenu-content">
-                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Shaders_example_2'))}>Wavy Effect</div>
-                    <div className="submenu-item">Material effect</div>
-                    <div className="submenu-item">Rim lighting</div>
-                    <div className="submenu-item">Light model</div>
+                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Shaders_example_1'))}>Wavy Effect</div>
+                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Shaders_example_2'))}>Lambert Light model</div>
+                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Shaders_example_3'))}>Phong Light model</div>
+                    <div className="submenu-item" onClick={() => dispatch(selectMenu('Shaders_example_4'))}>Full Light model</div>
                   </div>
                 )}
               </div>
